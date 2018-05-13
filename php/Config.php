@@ -7,7 +7,7 @@
  */
 
 //database credentials
-define('DBHOST','localhost');
+define('DBHOST','147.175.98.140');
 define('DBUSER','matojekokot');
 define('DBPASS','root');
 define('DBNAME','Zadanie');
@@ -24,7 +24,6 @@ try {
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);//Suggested to comment on production websites
     $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 } catch(PDOException $e) {
-    //show error
-    echo '<p class="bg-danger">'.$e->getMessage().'</p>';
-    exit;
+
 }
+
