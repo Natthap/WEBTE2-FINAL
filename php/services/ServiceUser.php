@@ -6,7 +6,9 @@
  * Time: 13:50
  */
 
-
+/*
+ * Function
+ */
 function getUserData($db, $id) {
 
     $sql = "SELECT 
@@ -25,7 +27,9 @@ function getUserData($db, $id) {
 
     return $row;
 }
-
+/*
+ * Function will update data for user by his ID
+ */
 function updateUserData($db, $userData, $id) {
 
     include "ServiceGeoCoding.php";
@@ -51,5 +55,82 @@ function updateUserData($db, $userData, $id) {
 
     $stmt->execute();
 }
+/*
+ * Function return all users as array of arrays where index is ID of user
+ * values are meno and priezvisko
+ */
+function getAllUsers($db) {
+    $sql = "SELECT FK_Members as id, meno, priezvisko FROM memberData";
 
+    $stmt = $db->prepare($sql);
+
+    $stmt->execute();
+
+    $result = array();
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $result[$row["id"]] = array($row["meno"], $row["priezvisko"]);
+    }
+
+    return $result;
+}
+
+/*
+ * Function will update users teamID based on his ID
+ */
+function updateUsersTeam($db, $id, $teamID) {
+    $sql = "UPDATE members 
+            SET team_id='".$teamID."'
+            WHERE id='".$id."'";
+
+    $stmt = $db->prepare($sql);
+
+    $stmt->execute();
+}
+
+/*
+ * Function will insert new user to database
+ * $userData must contains:
+ * password, email, active, resetToken,
+ * resetComplete, meno, priezvisko, skola,
+ * bydlisko, skola_adresa, bydlisko_adresa
+ */
+function createUser($db, $userData) {
+
+    $userData["skola_GPS"] = getGeoJson($userData["skola_adresa"]);
+
+    $userData["bydlisko_GPS"] = getGeoJson($userData["bydlisko_adresa"]);
+
+    $sql = "INSERT INTO members (password, email, created, personType, active, resetToken, resetComplete)
+            VALUES (
+            password='".$userData["password"]."', email='".$userData["email"]."', 
+            created='".date("Y-m-d h:i:s")."', personType='1', 
+            active='".$userData["active"]."', resetToken='".$userData["resetToken"]."', 
+            resetComplete='".$userData["resetComplete"]
+            ."')";
+
+    $stmt = $db->prepare($sql);
+
+    $stmt->execute();
+
+    $sql = "SELECT id FROM members WHERE email='".$userData["email"]."'";
+
+    $stmt->prepare($sql);
+
+    $stmt->execute();
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $sql = "INSERT INTO memberData (FK_Members, meno, priezvisko, skola, bydlisko, skola_adresa, bydlisko_adresa, skola_GPS, bydlisko_GPS)
+            VALUES (
+            FK_Members='".$row["id"]."', meno='".$userData["meno"]."', 
+            priezvisko='".$userData["priezvisko"]."', skola='".$userData["skola"]."', 
+            bydlisko='".$userData["bydlisko"]."', skola_adresa='".$userData["skola_adresa"]."', 
+            bydlisko_adresa='".$userData["bydlisko_adresa"]."', skola_GPS='".$userData["skola_GPS"]."', 
+            bydlisko_GPS='".$userData["bydlisko_GPS"]
+            ."')";
+
+    $stmt = $db->prepare($sql);
+
+    $stmt->execute();
+}
 ?>
