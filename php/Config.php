@@ -6,12 +6,6 @@
  * Time: 13:47
  */
 
-ob_start();
-session_start();
-
-//set timezone
-date_default_timezone_set('Europe/London');
-
 //database credentials
 define('DBHOST','localhost');
 define('DBUSER','matojekokot');
@@ -34,8 +28,3 @@ try {
     echo '<p class="bg-danger">'.$e->getMessage().'</p>';
     exit;
 }
-
-//include the user class, pass in the database connection
-include('classes/user.php');
-include('classes/phpmailer/mail.php');
-$user = new User($db);
