@@ -13,6 +13,7 @@ include "ServiceGeoCoding.php";
  * email, meno, priezvisko,
  * skola, bydlisko, skola_adresa,
  * bydlisko_adresa, skola_GPS, bydlisko_GPS
+ * arguments: db connection and id of user
  */
 function getUserData($db, $id) {
 
@@ -37,6 +38,8 @@ function getUserData($db, $id) {
  * email, meno, priezvisko,
  * skola, bydlisko, skola_adresa,
  * bydlisko_adresa, skola_GPS, bydlisko_GPS
+ * argument "$userData" must contains all above.
+ * $id is id of user
  */
 function updateUserData($db, $userData, $id) {
 
@@ -84,6 +87,7 @@ function getAllUsers($db) {
 
 /*
  * Function will update users teamID based on his ID
+ * arguments: db connection, ID of user, IF of team
  */
 function updateUsersTeam($db, $id, $teamID) {
     $sql = "UPDATE members 
@@ -110,10 +114,10 @@ function createUser($db, $userData) {
 
     $sql = "INSERT INTO members (password, email, created, personType, active, resetToken, resetComplete)
             VALUES (
-            password='".$userData["password"]."', email='".$userData["email"]."', 
-            created='".date("Y-m-d h:i:s")."', personType='1', 
-            active='".$userData["active"]."', resetToken='".$userData["resetToken"]."', 
-            resetComplete='".$userData["resetComplete"]
+            '".$userData["password"]."', '".$userData["email"]."', 
+            '".date("Y-m-d h:i:s")."', '1', 
+            '".$userData["active"]."', '".$userData["resetToken"]."', 
+            '".$userData["resetComplete"]
             ."')";
 
     $stmt = $db->prepare($sql);
@@ -130,11 +134,11 @@ function createUser($db, $userData) {
 
     $sql = "INSERT INTO memberData (FK_Members, meno, priezvisko, skola, bydlisko, skola_adresa, bydlisko_adresa, skola_GPS, bydlisko_GPS)
             VALUES (
-            FK_Members='".$row["id"]."', meno='".$userData["meno"]."', 
-            priezvisko='".$userData["priezvisko"]."', skola='".$userData["skola"]."', 
-            bydlisko='".$userData["bydlisko"]."', skola_adresa='".$userData["skola_adresa"]."', 
-            bydlisko_adresa='".$userData["bydlisko_adresa"]."', skola_GPS='".$userData["skola_GPS"]."', 
-            bydlisko_GPS='".$userData["bydlisko_GPS"]
+            '".$row["id"]."', '".$userData["meno"]."', 
+            '".$userData["priezvisko"]."', '".$userData["skola"]."', 
+            '".$userData["bydlisko"]."', '".$userData["skola_adresa"]."', 
+            '".$userData["bydlisko_adresa"]."', '".$userData["skola_GPS"]."', 
+            '".$userData["bydlisko_GPS"]
             ."')";
 
     $stmt = $db->prepare($sql);
