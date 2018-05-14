@@ -10,7 +10,7 @@ session_start();
 
 //if logged in redirect to members page
 if( $user->is_logged_in() ){
-    header('Location: MembersPage.php');
+    header('Location: Home.php');
     exit();
 }
 
@@ -82,7 +82,7 @@ require('layout/header.php');
 	    		echo "<p class='bg-danger'>$stop</p>";
 	    	} else { ?>
 				<form role="form" method="post" action="#" autocomplete="off">
-					<h2>Change Password</h2>
+					<h2>Zmena hesla</h2>
 					<hr>
 
 					<?php
@@ -99,7 +99,7 @@ require('layout/header.php');
 							echo "<h2 class='bg-success'>Vaše konto je teraz aktívne môžete sa prihlásiť.</h2>";
 							break;
 						case 'reset':
-							echo "<h2 class='bg-success'>Skontrolujte si Vás email.</h2>";
+							echo "<h2 class='bg-success'>Skontrolujte si Váš email.</h2>";
 							break;
 					}
 					?>
@@ -107,19 +107,19 @@ require('layout/header.php');
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6">
 							<div class="form-group">
-								<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="1">
+								<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Heslo" tabindex="1">
 							</div>
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6">
 							<div class="form-group">
-								<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Confirm Password" tabindex="1">
+								<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Potvrdenie hesla" tabindex="2">
 							</div>
 						</div>
 					</div>
 					
 					<hr>
 					<div class="row">
-						<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Change Password" class="btn btn-primary btn-block btn-lg" tabindex="3"></div>
+						<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Zmeniť heslo" class="btn btn-primary btn-block btn-lg" tabindex="3"></div>
 					</div>
 				</form>
 			<?php } ?>

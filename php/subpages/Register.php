@@ -11,30 +11,14 @@ session_start();
 
 //if logged in redirect to members page
 if( $user->is_logged_in()){
-    header('Location: MembersPage.php');
+    header('Location: Home.php');
     exit();
 }
 
 //if form has been submitted process it
 if(isset($_POST['submit'])){
-
     if (!isset($_POST['email'])) $error[] = "Prosím vyplňte všetky polia";
     if (!isset($_POST['password'])) $error[] = "Prosím vyplňte všetky polia";
-
-	$username = $_POST['username'];
-
-	//very basic validation
-	if(!$user->isValidUsername($username)){
-		$error[] = 'Prihlasovacie meno musí byť dlhé aspoň 8 znaky a kratšie ako 17 znakov.';
-	} else {
-		$stmt = $db->prepare('SELECT username FROM members WHERE username = :username');
-		$stmt->execute(array(':username' => $username));
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-		if(!empty($row['username'])){
-			$error[] = 'Prihlasovacie meno je už použíté.';
-		}
-	}
 
 	if(strlen($_POST['password']) < 3){
 		$error[] = 'Heslo je príliš krátke.';
@@ -63,7 +47,6 @@ if(isset($_POST['submit'])){
 
 	}
 
-
 	//if no errors have been created carry on
 	if(!isset($error)){
 		//hash the password
@@ -81,36 +64,40 @@ if(isset($_POST['submit'])){
         $address = $_POST['address'];
 
 		try {
-            $address = 'avenida+gustavo+paiva,maceio,alagoas,brasil';
+            //insert into database with a prepared statement
+            $stmt = $db->prepare('INSERT INTO members (password,email,personType,active) VALUES (:password, :email, 1, :active)');
+            $stmt->execute(array(
+                ':password' => $hashed_password,
+                ':email' => $email,
+                ':active' => $activasion
+            ));
+            $id = $db->lastInsertId('id');
+
+            $geocodeSchool = file_get_contents('http://maps.google.com/maps/api/geocode/json?address='.$schoolAddress.'&sensor=false');
+            $outputSchool = json_decode($geocodeSchool);
+
+            $latSchool = $outputSchool->results[0]->geometry->location->lat;
+            $longSchool = $outputSchool->results[0]->geometry->location->lng;
 
             $geocode = file_get_contents('http://maps.google.com/maps/api/geocode/json?address='.$address.'&sensor=false');
-
-            $output= json_decode($geocode);
+            $output = json_decode($geocode);
 
             $lat = $output->results[0]->geometry->location->lat;
             $long = $output->results[0]->geometry->location->lng;
 
-            $stm = $db->prepare('INSERT INTO memberData (meno,priezvisko,skola,skola_adresa,bydlisko,bydlisko_adresa,skola_GPS,bydlisko_GPS) VALUES (:firstName, :lastName, :school, :schoolAddress, :city, :address)');
+            $stm = $db->prepare('INSERT INTO memberData (FK_Members,meno,priezvisko,skola,skola_adresa,bydlisko,bydlisko_adresa,skola_GPS,bydlisko_GPS) 
+                                VALUES (:memberID, :firstName, :lastName, :school, :schoolAddress, :city, :address, :schoolGPS, :addressGPS)');
             $stm->execute(array(
+                ':memberID' => $id,
                 ':firstName' => $firstName,
                 ':lastName' => $lastName,
                 ':school' => $school,
                 ':schoolAddress' => $schoolAddress,
                 ':city' => $city,
-                ':address' => $address
+                ':address' => $address,
+                ':schoolGPS' => $latSchool,
+                ':addressGPS' => $lat
             ));
-            $idData = $db->lastInsertId('id');
-
-			//insert into database with a prepared statement
-			$stmt = $db->prepare('INSERT INTO members (data_id,username,password,email,personType,active) VALUES (:idData, :username, :password, :email, 1, :active)');
-			$stmt->execute(array(
-                ':idData' => $idData,
-				':username' => $username,
-				':password' => $hashed_password,
-				':email' => $email,
-				':active' => $activasion
-			));
-			$id = $db->lastInsertId('id');
 
 			//send email
 			$to = $_POST['email'];
@@ -167,47 +154,54 @@ require('layout/header.php');
 				?>
 
 				<div class="form-group">
-					<input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['email'], ENT_QUOTES); } ?>" tabindex="1">
+					<input type="email" name="email" id="email" class="form-control input-lg" placeholder="Emailová adresa" value="<?php if(isset($error)){
+					    echo htmlspecialchars($_POST['email'], ENT_QUOTES); } ?>" tabindex="1">
 				</div>
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="2">
+							<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Heslo" tabindex="2">
 						</div>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
-							<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Confirm Password" tabindex="3">
+							<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Potvrdenie hesla" tabindex="3">
 						</div>
 					</div>
 				</div>
                 <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6">
                         <div class="form-group">
-                            <input type="text" name="firstName" id="firstName" class="form-control input-lg" placeholder="First Name" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['firstName'], ENT_QUOTES); } ?>" tabindex="4">
+                            <input type="text" name="firstName" id="firstName" class="form-control input-lg" placeholder="Meno" value="<?php if(isset($error)){
+                                echo htmlspecialchars($_POST['firstName'], ENT_QUOTES); } ?>" tabindex="4">
                         </div>
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6">
                         <div class="form-group">
-                            <input type="text" name="lastName" id="lastName" class="form-control input-lg" placeholder="Last Name" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['lastName'], ENT_QUOTES); } ?>" tabindex="5">
+                            <input type="text" name="lastName" id="lastName" class="form-control input-lg" placeholder="Priezvisko" value="<?php if(isset($error)){
+                                echo htmlspecialchars($_POST['lastName'], ENT_QUOTES); } ?>" tabindex="5">
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="school" id="school" class="form-control input-lg" placeholder="School" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['school'], ENT_QUOTES); } ?>" tabindex="6">
+                    <input type="text" name="school" id="school" class="form-control input-lg" placeholder="Škola" value="<?php if(isset($error)){
+                        echo htmlspecialchars($_POST['school'], ENT_QUOTES); } ?>" tabindex="6">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="schoolAddress" id="schoolAddress" class="form-control input-lg" placeholder="School Address" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['schoolAddress'], ENT_QUOTES); } ?>" tabindex="7">
+                    <input type="text" name="schoolAddress" id="schoolAddress" class="form-control input-lg" placeholder="Adresa školy" value="<?php if(isset($error)){
+                        echo htmlspecialchars($_POST['schoolAddress'], ENT_QUOTES); } ?>" tabindex="7">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="city" id="city" class="form-control input-lg" placeholder="City" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['city'], ENT_QUOTES); } ?>" tabindex="8">
+                    <input type="text" name="city" id="city" class="form-control input-lg" placeholder="Mesto" value="<?php if(isset($error)){
+                        echo htmlspecialchars($_POST['city'], ENT_QUOTES); } ?>" tabindex="8">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="address" id="address" class="form-control input-lg" placeholder="Address" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['address'], ENT_QUOTES); } ?>" tabindex="9">
+                    <input type="text" name="address" id="address" class="form-control input-lg" placeholder="Adresa" value="<?php if(isset($error)){
+                        echo htmlspecialchars($_POST['address'], ENT_QUOTES); } ?>" tabindex="9">
                 </div>
 
 				<div class="row">
-					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="10"></div>
+					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Registrácia" class="btn btn-primary btn-block btn-lg" tabindex="10"></div>
 				</div>
 			</form>
 		</div>

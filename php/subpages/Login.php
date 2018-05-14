@@ -12,7 +12,7 @@ session_start();
 
 //check if already logged in move to home page
 if( $user->is_logged_in() ){
-    header('Location: MembersPage.php');
+    header('Location: Home.php');
     exit();
 }
 
@@ -38,7 +38,7 @@ if(isset($_POST['submit'])){
 
 				if($user->login($username,$password)){
 					$_SESSION['username'] = $username;
-					header('Location: MembersPage.php');
+					header('Location: Home.php');
 					exit;
 
 				} else {
@@ -47,15 +47,15 @@ if(isset($_POST['submit'])){
 			//} else{
 			//	$error[] = 'Prihlasovacie mená musia byť alfanumerické s dĺžkou 3-16 znakov';
 			//}
-            $succMsg = 'Your contact request have submitted successfully.';
+            $succMsg = 'reCAPTCHA kód bol úspešne overený.';
             $name = '';
             $email = '';
             $message = '';
         } else {
-            $errMsg = 'Robot verification failed, please try again.';
+            $errMsg = 'Robot verifikácia zlyhala, prosím skúste znovu';
         }
     } else {
-        $errMsg = 'Please click on the reCAPTCHA box.';
+        $errMsg = 'Prosím kliknite na reCAPTCHA okno.';
     }
 } else {
 	$errMsg = '';
@@ -73,7 +73,6 @@ $title = 'Login';
 require('layout/header.php'); 
 ?>
 
-	
 <div class="container">
 	<div class="row">
 	    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
@@ -82,7 +81,8 @@ require('layout/header.php');
 
 			<form role="form" method="post" action="#" autocomplete="off">
 				<h2>Prihláste sa</h2>
-				<p><a href='Register.php'>Naspäť na domovskú stránku</a> <a href='Reset.php'>Resetujte si heslo</a></p>
+				<p><a href='Register.php'>Naspäť na domovskú stránku</a></p>
+                <p><a href='Reset.php'>Resetujte si heslo</a></p>
 				<hr>
 
 				<?php
@@ -97,13 +97,13 @@ require('layout/header.php');
 					//check the action
 					switch ($_GET['action']) {
 						case 'active':
-							echo "<h2 class='bg-success'>Your account is now active you may now log in.</h2>";
+							echo "<h2 class='bg-success'>Vaše konto je aktívne, môžete sa prihlásiť.</h2>";
 							break;
 						case 'reset':
-							echo "<h2 class='bg-success'>Please check your inbox for a reset link.</h2>";
+							echo "<h2 class='bg-success'>Prosím skontrolujte si Vašu emailovú schránku na resetovací kód.</h2>";
 							break;
 						case 'resetAccount':
-							echo "<h2 class='bg-success'>Password changed, you may now login.</h2>";
+							echo "<h2 class='bg-success'>Heslo bolo zmenené, môžete sa prihlásiť.</h2>";
 							break;
 					}
 				}
@@ -114,14 +114,14 @@ require('layout/header.php');
 				</div>
 
 				<div class="form-group">
-					<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="3">
+					<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Heslo" tabindex="3">
 				</div>
 
 				<div class="g-recaptcha" data-sitekey="6LcjzFcUAAAAAJwGdMJuNhdvZvg1pEchJGIrdOOl"></div>
 				
 				<hr>
 				<div class="row">
-					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Login" class="btn btn-primary btn-block btn-lg" tabindex="5"></div>
+					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Prihlásenie" class="btn btn-primary btn-block btn-lg" tabindex="5"></div>
 				</div>
 			</form>
 		</div>

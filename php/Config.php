@@ -24,6 +24,7 @@ try {
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);//Suggested to comment on production websites
     $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 } catch(PDOException $e) {
-
+    echo '<p class="bg-danger">'.$e->getMessage().'</p>';
+    exit;
 }
 

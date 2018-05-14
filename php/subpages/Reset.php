@@ -10,7 +10,7 @@ session_start();
 
 //if logged in redirect to members page
 if( $user->is_logged_in() ){
-    header('Location: MembersPage.php');
+    header('Location: Home.php');
     exit();
 }
 
@@ -88,7 +88,7 @@ require('layout/header.php');
 	    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 			<form role="form" method="post" action="#" autocomplete="off">
 				<h2>Obnovenie hesla</h2>
-				<p><a class="btn btn-primary" href='Login.php'>Back to login page</a></p>
+				<p><a class="btn btn-primary" href='Login.php'>Späť na prihlásenie</a></p>
 				<hr>
 
 				<?php
@@ -119,7 +119,7 @@ require('layout/header.php');
 
 				<hr>
 				<div class="row">
-					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Sent Reset Link" class="btn btn-primary btn-block btn-lg" tabindex="2"></div>
+					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Poslať resetovací link" class="btn btn-primary btn-block btn-lg" tabindex="2"></div>
 				</div>
 			</form>
 		</div>
