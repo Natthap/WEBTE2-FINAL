@@ -99,3 +99,15 @@ function isUsed($db, $nazov) {
         return true;
     }
 }
+
+/*
+ * Function will detele team from teams table based on team ID
+ * arguments: db connection, ID of team
+ */
+function deleteTeam($db, $id) {
+    $sql = "DELETE FROM teams WHERE id='".$id."'";
+
+    $stmt = $db->prepare($sql);
+
+    $stmt->execute();
+}
