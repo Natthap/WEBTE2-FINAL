@@ -6,15 +6,20 @@
  * Time: 13:50
  */
 
+include "ServiceGeoCoding.php";
+
 /*
- * Function
+ * Function based on ID will return all user data:
+ * email, meno, priezvisko,
+ * skola, bydlisko, skola_adresa,
+ * bydlisko_adresa, skola_GPS, bydlisko_GPS
  */
 function getUserData($db, $id) {
 
     $sql = "SELECT 
             members.email, memberData.meno, memberData.priezvisko, 
             memberData.skola_adresa, memberData.bydlisko_adresa, memberData.skola, 
-            memberData.bydlisko, memberData.skola_GPS, memberData, bydlisko_GPS 
+            memberData.bydlisko, memberData.skola_GPS, memberData.bydlisko_GPS 
             FROM members 
             INNER JOIN memberData ON members.id=memberData.FK_Members 
             WHERE members.id='".$id."'";
@@ -28,7 +33,10 @@ function getUserData($db, $id) {
     return $row;
 }
 /*
- * Function will update data for user by his ID
+ * Function will update data for user by his ID:
+ * email, meno, priezvisko,
+ * skola, bydlisko, skola_adresa,
+ * bydlisko_adresa, skola_GPS, bydlisko_GPS
  */
 function updateUserData($db, $userData, $id) {
 
