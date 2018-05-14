@@ -8,19 +8,20 @@
 
 $title = 'Uvodna stranka';
 
-require("php/subpages/layout/header.php");
+require("php/subpages/layout/Header.php");
 ?>
-
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-            <p><a href='php/subpages/Register.php'>Zaregistrujte sa</a></p>
-            <hr>
-            <p><a href='php/subpages/Login.php'>Prihláste sa</a></p>
-            <hr>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+                <p><a href='php/subpages/Register.php'>Zaregistrujte sa</a></p>
+                <hr>
+                <p><a href='php/subpages/Login.php'>Prihláste sa</a></p>
+                <hr>
+            </div>
         </div>
     </div>
-</div>
+</body>
 
 <?php
-require('php/subpages/layout/footer.php');
+require('php/subpages/layout/Footer.php');

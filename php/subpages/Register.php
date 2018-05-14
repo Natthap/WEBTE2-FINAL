@@ -4,6 +4,8 @@ require('../Config.php');
 //include the user class, pass in the database connection
 include('classes/user.php');
 include('classes/phpmailer/mail.php');
+include('../services/ServiceUser.php');
+
 $user = new User($db);
 
 ob_start();
@@ -63,42 +65,11 @@ if(isset($_POST['submit'])){
         $city = $_POST['city'];
         $address = $_POST['address'];
 
+        $userData = array("meno"=>$firstName,"priezvisko"=>$lastName,"skola"=>$school,"skola_adresa"=>$schoolAddress,"bydlisko"=>$city,
+            "bydlisko_adresa"=>$address,"password"=>$hashed_password,"email"=>$email,"active"=>$activasion,"resetToken"=>"","resetComplete"=>"No",);
+
+        createUser($db, $userData);
 		try {
-            //insert into database with a prepared statement
-            $stmt = $db->prepare('INSERT INTO members (password,email,personType,active) VALUES (:password, :email, 1, :active)');
-            $stmt->execute(array(
-                ':password' => $hashed_password,
-                ':email' => $email,
-                ':active' => $activasion
-            ));
-            $id = $db->lastInsertId('id');
-
-            $geocodeSchool = file_get_contents('http://maps.google.com/maps/api/geocode/json?address='.$schoolAddress.'&sensor=false');
-            $outputSchool = json_decode($geocodeSchool);
-
-            $latSchool = $outputSchool->results[0]->geometry->location->lat;
-            $longSchool = $outputSchool->results[0]->geometry->location->lng;
-
-            $geocode = file_get_contents('http://maps.google.com/maps/api/geocode/json?address='.$address.'&sensor=false');
-            $output = json_decode($geocode);
-
-            $lat = $output->results[0]->geometry->location->lat;
-            $long = $output->results[0]->geometry->location->lng;
-
-            $stm = $db->prepare('INSERT INTO memberData (FK_Members,meno,priezvisko,skola,skola_adresa,bydlisko,bydlisko_adresa,skola_GPS,bydlisko_GPS) 
-                                VALUES (:memberID, :firstName, :lastName, :school, :schoolAddress, :city, :address, :schoolGPS, :addressGPS)');
-            $stm->execute(array(
-                ':memberID' => $id,
-                ':firstName' => $firstName,
-                ':lastName' => $lastName,
-                ':school' => $school,
-                ':schoolAddress' => $schoolAddress,
-                ':city' => $city,
-                ':address' => $address,
-                ':schoolGPS' => $latSchool,
-                ':addressGPS' => $lat
-            ));
-
 			//send email
 			$to = $_POST['email'];
 			$subject = "Registration Confirmation";
@@ -128,7 +99,7 @@ if(isset($_POST['submit'])){
 $title = 'Úvodná stránka prihlasovacieho systému';
 
 //include header template
-require('layout/header.php');
+require('layout/Header.php');
 ?>
 
 <div class="container">
@@ -210,5 +181,5 @@ require('layout/header.php');
 
 <?php
 //include header template
-require('layout/footer.php');
+require('layout/Footer.php');
 ?>

@@ -72,7 +72,7 @@ if(isset($_POST['submit'])){
 
 $title = 'Reset Account';
 
-require('layout/header.php'); 
+require('layout/Header.php');
 ?>
 
 <div class="container">
@@ -129,5 +129,5 @@ require('layout/header.php');
 
 <?php 
 //include header template
-require('layout/footer.php'); 
+require('layout/Footer.php');
 ?>
