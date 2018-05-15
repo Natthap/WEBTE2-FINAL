@@ -46,7 +46,6 @@ if(isset($_POST['submit'])){
 		if(!empty($row['email'])){
 			$error[] = 'Zadaný email sa už používa.';
 		}
-
 	}
 
 	//if no errors have been created carry on
@@ -72,7 +71,7 @@ if(isset($_POST['submit'])){
 		try {
 			//send email
 			$to = $_POST['email'];
-			$subject = "Registration Confirmation";
+			$subject = "Registrácia úspešná";
 			$body = "<p>Ďakujem Vám za registráciu</p>
 			<p>Na aktiváciu vášho konta použite nasledujúci odkaz: <a href='".DIR."php/subpages/Activate.php?x=$id&y=$activasion'>".DIR."php/subpages/Activate.php?x=$id&y=$activasion</a></p>
 			<p>S pozdravom váš super admin</p>";
