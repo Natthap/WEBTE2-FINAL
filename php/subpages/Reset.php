@@ -22,15 +22,15 @@ if(isset($_POST['submit'])){
 	//Make sure all POSTS are declared
 	if (!isset($_POST['email'])) $error[] = "Prosím vyplňte všetky polia.";
 
-
 	//email validation
 	if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
 	    $error[] = 'Zadajte platnú emailovú adresu.';
 	} else {
-		if(!userExist($db, $_POST['email'])){
+	    echo "echo 1";
+		if(!userExists($db, $_POST['email'])){
 			$error[] = 'Zadaný email nerozoznaný.';
 		}
-
+        echo "echo 2";
 	}
 
 	//if no errors have been created carry on
