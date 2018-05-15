@@ -130,11 +130,11 @@ function createUser($db, $userData) {
 
     $stmt->execute();
 
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $id = $db->lastInsertId('id');
 
     $sql = "INSERT INTO memberData (FK_Members, meno, priezvisko, skola, bydlisko, skola_adresa, bydlisko_adresa, skola_GPS, bydlisko_GPS)
             VALUES (
-            '".$row["id"]."', '".$userData["meno"]."', 
+            '".$id."', '".$userData["meno"]."', 
             '".$userData["priezvisko"]."', '".$userData["skola"]."', 
             '".$userData["bydlisko"]."', '".$userData["skola_adresa"]."', 
             '".$userData["bydlisko_adresa"]."', '".$userData["skola_GPS"]."', 
@@ -144,5 +144,22 @@ function createUser($db, $userData) {
     $stmt = $db->prepare($sql);
 
     $stmt->execute();
+}
+
+function userExist($db, $email) {
+
+    $sql = "SELECT * FROM members WHERE email='".$email."'";
+
+    $stmt = $db->prepare($sql);
+
+    $stmt->execute();
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if($row) {
+        return true;
+    } else {
+        return false;
+    }
 }
 ?>
