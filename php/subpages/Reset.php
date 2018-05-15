@@ -25,11 +25,7 @@ if(isset($_POST['submit'])){
 	if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
 	    $error[] = 'Zadajte platnú emailovú adresu.';
 	} else {
-		$stmt = $db->prepare('SELECT email FROM members WHERE email = :email');
-		$stmt->execute(array(':email' => $_POST['email']));
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-		if(empty($row['email'])){
+		if(!userExist($db, $_POST['email'])){
 			$error[] = 'Zadaný email nerozoznaný.';
 		}
 

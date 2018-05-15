@@ -39,11 +39,7 @@ if(isset($_POST['submit'])){
 	if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 	    $error[] = 'Prosím zadajte platnú emalovú adresu.';
 	} else {
-		$stmt = $db->prepare('SELECT email FROM members WHERE email = :email');
-		$stmt->execute(array(':email' => $email));
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-		if(!empty($row['email'])){
+		if(userExist($db, $email)){
 			$error[] = 'Zadaný email sa už používa.';
 		}
 	}
