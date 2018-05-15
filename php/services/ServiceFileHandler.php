@@ -20,7 +20,9 @@ header('charset=utf-8');
 *ak pouzivatel existuje neprida sa.
 */
 function filehandler($db,$tmpName)
-{
+{               
+    
+                $error_messages=array();
                 $row = 1;
                 if (($handle = fopen($tmpName, "r")) !== FALSE) {
                   $flag = true;
@@ -50,19 +52,24 @@ function filehandler($db,$tmpName)
                         $hash_password = password_hash($password, PASSWORD_BCRYPT);
                         $userData=array("meno"=>$data1[1],"priezvisko"=>$data1[2],"skola"=>$data1[4],"skola_adresa"=>$data1[5],"bydlisko"=>$data1[6],"bydlisko_adresa"=>$bydlisko_adresa,"password"=>$hash_password,"email"=>$data1[3],"active"=>"","resetToken"=>"","resetComplete"=>"No");
                         
-                        if(userExist($db,$data1[3])!)
+                        
+                        
+                        if(!userExist($db,$data1[3]))
                         {
+                            createUser($db,$userData);
                             sendMail($data1[3],$password);
-                            createUser($db,$userData); 
                         }
                         
                         else
                         {
-                            return "nepodarilo sa vytvorit";
+                            array_push($error_messages,"Uzivatel s emailom: ".$data1[3]." uz existuje");
                         }
                     }
                 } 
                   fclose($handle);
                 }
+                array_push($error_messages,"Nepodarilo sa otvorit subor");
+    
+                return $error_messages;
 }
 ?>
