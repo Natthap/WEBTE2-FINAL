@@ -21,7 +21,7 @@ $title = 'Members Page';
 require('layout/Header.php');
 
 if ($_SESSION['personType'] == 2) {
-    require("layout/AdminMenu.php");
+    require("layout/Menu.php");
 
     echo '<div class="container">';
         echo '<div class="row">';
@@ -35,7 +35,7 @@ if ($_SESSION['personType'] == 2) {
 }
 
 if ($_SESSION['personType'] == 1) {
-    require("layout/UserMenu.php");
+    require("layout/Menu.php");
 
     echo '<div class="container">';
         echo '<div class="row">';

@@ -82,7 +82,7 @@ require('layout/Header.php');
 
 			<form role="form" method="post" action="#" autocomplete="off">
 				<h2>Prihláste sa</h2>
-				<p><a href='Register.php'>Naspäť na domovskú stránku</a></p>
+				<p><a href='../../index.php'>Naspäť na domovskú stránku</a></p>
                 <p><a href='Reset.php'>Resetujte si heslo</a></p>
 				<hr>
 
