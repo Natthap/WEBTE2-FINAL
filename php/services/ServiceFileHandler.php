@@ -66,9 +66,9 @@ function filehandler($db,$tmpName)
                         }
                     }
                 } 
-                  fclose($handle);
+                    fclose($handle);
+                    array_push($error_messages,"Nepodarilo sa otvorit subor");
                 }
-                array_push($error_messages,"Nepodarilo sa otvorit subor");
     
                 return $error_messages;
 }
