@@ -17,15 +17,20 @@ if(!$user->is_logged_in()){
 $title = 'Members Page';
 
 //include header template
-require('layout/Header.php');
+require('layout/header.php');
+require("layout/Menu.php");
 
-if ($_SESSION['personType'] == 2) {
-    require("layout/Menu.php");
-}
+if ($_SESSION['personType'] == 2) { ?>
+    <div class="container">
 
-if ($_SESSION['personType'] == 1) {
-    require("layout/Menu.php");
-}
+    </div>
+<?php}
+
+if ($_SESSION['personType'] == 1) { ?>
+    <div class="container">
+
+    </div>
+<?php}
 
 //include header template
-require('layout/Footer.php');
+require('layout/footer.php');

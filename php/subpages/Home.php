@@ -17,11 +17,10 @@ if(!$user->is_logged_in()){
 $title = 'Members Page';
 
 //include header template
-require('layout/Header.php');
+require('layout/header.php');
+require("layout/Menu.php");
 
 if ($_SESSION['personType'] == 2) {
-    require("layout/Menu.php");
-
     echo '<div class="container">';
         echo '<div class="row">';
             echo '<div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-3 col-md-offset-3">';
@@ -34,8 +33,6 @@ if ($_SESSION['personType'] == 2) {
 }
 
 if ($_SESSION['personType'] == 1) {
-    require("layout/Menu.php");
-
     echo '<div class="container">';
         echo '<div class="row">';
             echo '<div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-3 col-md-offset-3">';
@@ -48,4 +45,4 @@ if ($_SESSION['personType'] == 1) {
 }
 
 //include header template
-require('layout/Footer.php');
+require('layout/footer.php');
