@@ -162,4 +162,21 @@ function userExist($db, $email) {
         return false;
     }
 }
+
+function getAllUsersData($db) {
+    $sql = "SELECT 
+            members.email, memberData.meno, memberData.priezvisko, 
+            memberData.skola_adresa, memberData.bydlisko_adresa, memberData.skola, 
+            memberData.bydlisko, memberData.skola_GPS, memberData.bydlisko_GPS 
+            FROM members 
+            INNER JOIN memberData ON members.id=memberData.FK_Members";
+
+    $stmt = $db->prepare($sql);
+
+    $stmt->execute();
+
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+}
 ?>
