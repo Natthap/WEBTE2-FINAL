@@ -8,7 +8,7 @@
 
 $title = 'Uvodna stranka';
 
-require("php/subpages/layout/Header.php");
+require("php/subpages/layout/header.php");
 ?>
 <body>
     <div class="container">
@@ -24,4 +24,4 @@ require("php/subpages/layout/Header.php");
 </body>
 
 <?php
-require('php/subpages/layout/Footer.php');
+require('php/subpages/layout/footer.php');
