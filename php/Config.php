@@ -13,7 +13,7 @@ define('DBPASS','root');
 define('DBNAME','Zadanie');
 
 //application address
-define('DIR','http://147.175.98.140/semestralnyProjekt/');
+define('DIR',$_SERVER['SERVER_ADDR'].'/semestralnyProjekt/');
 define('SITEEMAIL','galis.filip@gmail.com');
 
 try {

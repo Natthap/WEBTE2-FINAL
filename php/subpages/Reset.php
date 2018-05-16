@@ -26,11 +26,9 @@ if(isset($_POST['submit'])){
 	if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
 	    $error[] = 'Zadajte platnú emailovú adresu.';
 	} else {
-	    echo "echo 1";
 		if(!userExists($db, $_POST['email'])){
 			$error[] = 'Zadaný email nerozoznaný.';
 		}
-        echo "echo 2";
 	}
 
 	//if no errors have been created carry on
