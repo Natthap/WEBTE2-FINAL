@@ -78,7 +78,7 @@ if(isset($_POST['submit'])){
 
 $title = 'Obnovenie konta';
 
-require('layout/Header.php');
+require('layout/header.php');
 ?>
 
 <div class="container">
@@ -126,5 +126,5 @@ require('layout/Header.php');
 
 <?php
 //include header template
-require('layout/Footer.php');
+require('layout/footer.php');
 ?>

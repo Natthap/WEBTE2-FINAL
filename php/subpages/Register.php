@@ -94,7 +94,7 @@ if(isset($_POST['submit'])){
 $title = 'Úvodná stránka prihlasovacieho systému';
 
 //include header template
-require('layout/Header.php');
+require('layout/header.php');
 ?>
 
 <div class="container">
@@ -176,5 +176,5 @@ require('layout/Header.php');
 
 <?php
 //include header template
-require('layout/Footer.php');
+require('layout/footer.php');
 ?>
