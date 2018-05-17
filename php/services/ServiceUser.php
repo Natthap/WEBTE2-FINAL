@@ -126,7 +126,7 @@ function createUser($db, $userData) {
 
     $sql = "SELECT id FROM members WHERE email='".$userData["email"]."'";
 
-    $stmt->prepare($sql);
+    $stmt = $db->prepare($sql);
 
     $stmt->execute();
 
