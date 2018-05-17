@@ -6,3 +6,8 @@ a {
 	color: #EF1F2F;
 	text-decoration: none;
 }
+
+#loginDiv, #newsDiv, #mapDiv {
+	position: absolute;
+	margin: 10px;
+}
