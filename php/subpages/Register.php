@@ -39,7 +39,7 @@ if(isset($_POST['submit'])){
 	if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 	    $error[] = 'Prosím zadajte platnú emalovú adresu.';
 	} else {
-		if(userExist($db, $email)){
+		if(userExists($db, $email)) {
 			$error[] = 'Zadaný email sa už používa.';
 		}
 	}

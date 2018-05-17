@@ -146,7 +146,7 @@ function createUser($db, $userData) {
     $stmt->execute();
 }
 
-function userExist($db, $email) {
+function userExists($db, $email) {
 
     $sql = "SELECT * FROM members WHERE email='".$email."'";
 
