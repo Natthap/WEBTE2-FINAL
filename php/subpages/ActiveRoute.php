@@ -16,6 +16,7 @@ if(!$user->is_logged_in()){
 
 //define page title
 $title = 'Aktívne trasy';
+$active = 'active';
 
 //include header template
 require('layout/header.php');
