@@ -1,8 +1,9 @@
-    var geocoder;
     var map;
 
     var request;
     var markers = [];
+    var subRoutes = [];
+    var route;
 
     function initialize() {
         var latlng = new google.maps.LatLng(48.750086, 19.669258);
@@ -40,6 +41,25 @@
                     map: map,
                     indexOf: markers.length
                 });
+                if(subRoutes || route) {
+                    if(subRoutes) {
+                        request1 = {
+                            origin: new google.maps.LatLng(subroutes[subRoutes.length-1].destination.getLat(), subroutes[subRoutes.length-1].destination.getLng()),
+                            destination: new google.maps.LatLng (marker.getPosition().getLat(), marker.getPosition().getLng()),
+                            travelMode: google.maps.DirectionsTravelMode.WALKING
+                        };
+                        addRoute(request1);
+                        request = request1;
+                    } else if(route) {
+                        request1 = {
+                            origin: new google.maps.LatLng(route.origin.getLat(), route.origin.getLng()),
+                            destination: new google.maps.LatLng (marker.getPosition().getLat(), marker.getPosition().getLng()),
+                            travelMode: google.maps.DirectionsTravelMode.WALKING
+                        };
+                        addRoute(request1);
+                        request = request1;
+                    }
+                }
                 google.maps.event.addListener(marker, 'click', function (event) {
                     this.setMap(null);
                     removeMarker(marker);
@@ -67,3 +87,9 @@
                 alert('failed to get directions');
         });
     }
+
+    function clearSubRoute() {
+        //nejak odstranit cestu
+    }
+
+
