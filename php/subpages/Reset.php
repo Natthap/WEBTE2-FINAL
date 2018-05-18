@@ -2,10 +2,12 @@
 
 //include the user class, pass in the database connection
 include('classes/user.php');
-include('classes/phpmailer/mail.php');
 include('../services/ServiceUser.php');
+include('../services/ServiceMailHandler.php');
 
 $user = new User($db);
+$mailer = new ServiceMailHandler();
+$userService = new ServiceUser();
 
 ob_start();
 session_start();
@@ -26,7 +28,7 @@ if(isset($_POST['submit'])){
 	if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
 	    $error[] = 'Zadajte platnú emailovú adresu.';
 	} else {
-		if(!userExists($db, $_POST['email'])){
+		if(!$userService->userExists($db, $_POST['email'])){
 			$error[] = 'Zadaný email nerozoznaný.';
 		}
 	}
@@ -42,7 +44,6 @@ if(isset($_POST['submit'])){
         $storedToken = hash('SHA256', ($token));//Hash the key stored in the database, the normal value is sent to the user
 
 		try {
-
 			$stmt = $db->prepare("UPDATE members SET resetToken = :token, resetComplete='No' WHERE email = :email");
 			$stmt->execute(array(
 				':email' => $row['email'],
@@ -56,12 +57,13 @@ if(isset($_POST['submit'])){
 			<p>Ak je tento mail chyba môžete ho ignorovať.</p>
 			<p>Na obnovenie hesla použite nasledujúci odkaz: <a href='".DIR."php/subpages/ResetPassword.php?key=$token'>".DIR."php/subpages/resetPassword.php?key=$token</a></p>";
 
-			$mail = new Mail();
+			/*$mail = new Mail();
 			$mail->setFrom(SITEEMAIL);
 			$mail->addAddress($to);
 			$mail->subject($subject);
 			$mail->body($body);
-			$mail->send();
+			$mail->send();*/
+			$mailer->sendMail($to, "", $subject, $body, 3);
 
 			//redirect to index page
 			header('Location: Login.php?action=reset');

@@ -3,10 +3,14 @@ require('../Config.php');
 
 //include the user class, pass in the database connection
 include('classes/user.php');
-include('classes/phpmailer/mail.php');
 include('../services/ServiceUser.php');
+include('../services/ServiceMailHandler.php');
+include('../services/ServiceGeoCoding.php');
 
 $user = new User($db);
+$userService = new ServiceUser();
+$mailer = new ServiceMailHandler();
+$geoClass = new ServiceGeoCoding();
 
 ob_start();
 session_start();
@@ -39,7 +43,7 @@ if(isset($_POST['submit'])){
 	if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 	    $error[] = 'Prosím zadajte platnú emalovú adresu.';
 	} else {
-		if(userExists($db, $email)) {
+		if($userService->userExists($db, $email)) {
 			$error[] = 'Zadaný email sa už používa.';
 		}
 	}
@@ -48,7 +52,7 @@ if(isset($_POST['submit'])){
 	if(!isset($error)){
 		//hash the password
 		$hashed_password = $user->password_hash($_POST['password'], PASSWORD_BCRYPT);
-        //$password = $_POST['password'];
+        $password = $_POST['password'];
 
 		//create the activasion code
 		$activasion = md5(uniqid(rand(),true));
@@ -63,30 +67,8 @@ if(isset($_POST['submit'])){
         $userData = array("meno"=>$firstName,"priezvisko"=>$lastName,"skola"=>$school,"skola_adresa"=>$schoolAddress,"bydlisko"=>$city,
             "bydlisko_adresa"=>$address,"password"=>$hashed_password,"email"=>$email,"active"=>$activasion,"resetToken"=>"","resetComplete"=>"No",);
 
-        createUser($db, $userData);
-		try {
-			//send email
-			$to = $_POST['email'];
-			$subject = "Registrácia úspešná";
-			$body = "<p>Ďakujem Vám za registráciu</p>
-			<p>Na aktiváciu vášho konta použite nasledujúci odkaz: <a href='".DIR."php/subpages/Activate.php?x=$id&y=$activasion'>".DIR."php/subpages/Activate.php?x=$id&y=$activasion</a></p>
-			<p>S pozdravom váš super admin</p>";
-
-			$mail = new Mail();
-			$mail->setFrom(SITEEMAIL);
-			$mail->addAddress($to);
-			$mail->subject($subject);
-			$mail->body($body);
-			$mail->send();
-
-			//redirect to index page
-			header('Location: Register.php?action=joined');
-			exit;
-
-		//else catch the exception and show the error.
-		} catch(PDOException $e) {
-		    $error[] = $e->getMessage();
-		}
+        $userService->createUser($db, $userData, $geoClass);
+        $mailer->sendMail($_POST['email'], $password, "registracia prebehla uspesne", "", 1);
 	}
 }
 

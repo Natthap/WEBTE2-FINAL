@@ -10,18 +10,26 @@ $title = 'Uvodna stranka';
 
 require("php/subpages/layout/header.php");
 ?>
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div id="mapDiv" class="col col-lg-8 border border-primary rounded">
+            tu bude mapa
+        </div>
+        <div class="col col-lg-4 box">
+            <div id="loginDiv" class="col col-lg border border-primary rounded">
+                <h3>Prihlasenie a registracia</h3>
+                <hr>
                 <p><a href='php/subpages/Register.php'>Zaregistrujte sa</a></p>
                 <hr>
                 <p><a href='php/subpages/Login.php'>Prihláste sa</a></p>
-                <hr>
+            </div>
+            <div id="newsDiv" class="col col-lg border border-primary rounded">
+                tu budu novinky
             </div>
         </div>
     </div>
-</body>
+</div>
 
 <?php
 require('php/subpages/layout/footer.php');
