@@ -10,7 +10,7 @@ $(document).ready(function () {
             $('#data').empty();
             $.ajax({
                 type: 'GET',
-                url: '../semestralnyProjekt/php/rest/Rest_Map.php',
+                url: '../semestralnyProjekt/php/rest/RestMap.php',
                 dataType: 'json',
                 success: function (data) {
                     

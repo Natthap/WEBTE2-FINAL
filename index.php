@@ -13,7 +13,7 @@ require("php/subpages/layout/header.php");
 
     <link rel="stylesheet" href="css/main.css">
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="js/googleMap.js"></script>
+    <script src="js/GoogleMapaIndex.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnj9vchPrrDWFJsZ_OLK8vZr9cFoAhYnI" ></script>
 
     <div class="container col col-lg-12">
