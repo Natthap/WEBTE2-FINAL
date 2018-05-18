@@ -20,14 +20,53 @@ $title = 'Používatelia';
 require('layout/header.php');
 require("layout/Menu.php");
 
-echo '<div class="container">';
-if ($_SESSION['personType'] == 2) {
-
-}
 if ($_SESSION['personType'] == 1) {
+    header('Location: Login.php');
+    exit();
+}?>
 
-}
-echo '<div>';
+<div class="container">
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>John</td>
+                <td>kokot2</td>
+                <td>kokot</td>
+            </tr>
+            <tr>
+                <td>Mary</td>
+                <td>Moe</td>
+                <td>mary@example.com</td>
+            </tr>
+            <tr>
+                <td>July</td>
+                <td>Dooley</td>
+                <td>july@example.com</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="emailForm col-12">
+            <form class="" role="form" method="post" action="#">
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Example file input</label>
+                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+<div>
 
+<?php
 //include header template
 require('layout/footer.php');
