@@ -52,3 +52,27 @@ function sortTable(n,id) {
         }
     }
 }
+
+function filter(inputName, tableName) {
+    // Declare variables
+    var input, filter, table, tr, td, i;
+    input = document.getElementById(inputName);
+    filter = input.value.toUpperCase();
+    table = document.getElementById(tableName);
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+        for(a = 0; a < tr[i].children.length; a++) {
+            td = tr[i].children[a];
+            if (td) {
+                if (td.innerHTML.toUpperCase().includes(filter)) {
+                    tr[i].style.display = "";
+                    break;
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+}
