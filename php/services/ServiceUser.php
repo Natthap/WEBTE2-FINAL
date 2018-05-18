@@ -44,7 +44,7 @@ class ServiceUser
      * argument "$userData" must contains all above.
      * $id is id of user
      */
-    function updateUserData($db, $userData, $id)
+    function updateUserData($db, $userData, $id, $geoClass)
     {
 
         include "ServiceGeoCoding.php";
@@ -55,9 +55,9 @@ class ServiceUser
 
         $stmt->execute();
 
-        $userData["skola_GPS"] = getGeoJson($userData["skola_adresa"]);
+        $userData["skola_GPS"] = $geoClass->getGeoJson($userData["skola_adresa"]);
 
-        $userData["bydlisko_GPS"] = getGeoJson($userData["bydlisko_adresa"]);
+        $userData["bydlisko_GPS"] = $geoClass->getGeoJson($userData["bydlisko_adresa"]);
 
         $sql = "UPDATE memberData SET 
             meno='" . $userData["meno"] . "', priezvisko='" . $userData["priezvisko"] . "',

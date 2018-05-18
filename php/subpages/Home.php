@@ -15,32 +15,45 @@ if(!$user->is_logged_in()){
 
 //define page title
 $title = 'Úvod';
+$home = 'active';
 
 //include header template
 require('layout/header.php');
 require("layout/Menu.php");
 
-echo '<div class="container">';
-if ($_SESSION['personType'] == 2) {
-    echo '<div class="row">';
-        echo '<div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-3 col-md-offset-3">';
-            echo '<h2>Toto je stránka len pre prihlásených administrátorov - Vitaj '.htmlspecialchars($_SESSION['username'], ENT_QUOTES).'</h2>';
-            echo '<p><a class="btn btn-primary" href="Logout.php">Odhlásiť sa</a>';
-            echo '<hr>';
-        echo '</div>';
-    echo '</div>';
-}
+?>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="../../js/GoogleMapaIndex.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnj9vchPrrDWFJsZ_OLK8vZr9cFoAhYnI" ></script>
 
-if ($_SESSION['personType'] == 1) {
-    echo '<div class="row">';
-        echo '<div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-3 col-md-offset-3">';
-            echo '<h2>Toto je stránka len pre prihlásených pouzivatelov - Vitaj '.htmlspecialchars($_SESSION['username'], ENT_QUOTES).'</h2>';
-            echo '<p><a class="btn btn-primary" href="Logout.php">Odhlásiť sa</a>';
-            echo '<hr>';
-        echo '</div>';
-    echo '</div>';
-}
-echo '</div>';
+    <div class="container col col-lg-12">
+        <div class="row justify-content-md-center mapContainer">
+            <div class="col col-lg-8 border border-primary rounded m-3">
+                <div id="mapDiv" class="col-12 ml-0 mt-0">
+                </div>
+            </div>
+            <div id="newsDiv" class="col col-lg-3 border border-primary rounded m-3">
+            </div>
+        </div>
+        <div class="row justify-content-md-center mapContainer">
+            <input class="btn btn-primary mr-3" id="A" type="button" onclick()="GoogleMapa(1)" data='1' name="Mapa" value="Skola" checked>
+            <input class="btn btn-primary mr-3" id="B" type="button" onclick()="GoogleMapa(2)" data='2' name="Mapa" value="Bydlisko">
+            <a class="btn btn-primary" href="Logout.php">Odhlásiť sa</a>
+        </div>
+    </div>
 
+    <script>
+        $('#A').click(function(event) {
+            var id = $(this).attr('data');
+            GoogleMapa(id);
+        });
+
+        $('#B').click(function(event) {
+            var id = $(this).attr('data');
+            GoogleMapa(id);
+        });
+    </script>
+
+<?php
 //include header template
 require('layout/footer.php');

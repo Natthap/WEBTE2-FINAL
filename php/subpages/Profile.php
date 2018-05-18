@@ -15,19 +15,38 @@ if(!$user->is_logged_in()){
 
 //define page title
 $title = 'Profil';
+$profile = 'active';
 
 //include header template
 require('layout/header.php');
 require("layout/Menu.php");
 
-echo '<div class="container">';
-if ($_SESSION['personType'] == 2) {
+?>
 
-}
-if ($_SESSION['personType'] == 1) {
+<div class="container">
+    <div class="emailForm">
+        <form class="" role="form" method="post" action="#">
+            <div class="form-group">
+                <label for="nameInput">Vase meno</label>
+                <input type="text" name="name" class="form-control" id="nameInput" value="<?php echo $_SESSION['memberID']; ?>">
+            </div>
+            <div class="form-group">
+                <label for="nameInput">Vase meno</label>
+                <input type="text" name="name" class="form-control" id="nameInput" placeholder="Vase meno">
+            </div>
+            <div class="form-group">
+                <label for="nameInput">Vase meno</label>
+                <input type="text" name="name" class="form-control" id="nameInput" placeholder="Vase meno">
+            </div>
+            <div class="form-group">
+                <label for="nameInput">Vase meno</label>
+                <input type="text" name="name" class="form-control" id="nameInput" placeholder="Vase meno">
+            </div>
+            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+<div>
 
-}
-echo '<div>';
-
+<?php
 //include header template
 require('layout/footer.php');

@@ -1,3 +1,11 @@
+#loginDiv, #newsDiv {
+	min-height: 200px;
+}
+
+#mapDiv {
+	min-height: 400px;
+}
+
 .bg-danger, .bg-success {
 	padding: 0 5px;
 }
@@ -5,9 +13,4 @@
 a {
 	color: #EF1F2F;
 	text-decoration: none;
-}
-
-#loginDiv, #newsDiv, #mapDiv {
-	position: absolute;
-	margin: 10px;
 }
