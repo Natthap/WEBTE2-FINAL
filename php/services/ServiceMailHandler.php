@@ -19,16 +19,16 @@ class ServiceMailHandler
     {
         if ($emailType == 1) {
             try {
-                $body = "<p>Bol Vám vytvorený nový účet</p>
+                /*$body = "<p>Bol Vám vytvorený nový účet</p>
                 <p>Vaše prihlasovacie meno je: " . $email . " a Vaše prihlasovacie heslo je: " . $password . "</p>
                 <p>Vaše heslo si môžete zmeniť na tomto odkaze: <a href='" . DIR . "php/subpages/Reset.php'>" . DIR . "php/subpages/Reset.php</a></p></p>
-                <p>S pozdravom Váš super admin</p>";
+                <p>S pozdravom Váš super admin</p>";*/
 
                 $mail = new Mail();
                 $mail->setFrom(SITEEMAIL);
                 $mail->addAddress($email);
                 $mail->subject($subject);
-                $mail->body($body);
+                $mail->body($message);
                 $mail->send();
             } catch (PDOException $e) {
                 $error[] = $e->getMessage();

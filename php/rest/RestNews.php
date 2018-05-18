@@ -10,14 +10,14 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-include_once './Config.php';
-include_once './services/ServiceNews.php';
-    
-    
+include_once '../Config.php';
+include_once '../services/ServiceNews.php';
+
+$news = new ServiceNews();
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 
-    $arr[] = getallnews($db);
+    $arr[] = $news->getallnews($db);
     // return all our data to an AJAX call
     echo json_encode($arr,JSON_PRETTY_PRINT);
     

@@ -67,8 +67,12 @@ if(isset($_POST['submit'])){
         $userData = array("meno"=>$firstName,"priezvisko"=>$lastName,"skola"=>$school,"skola_adresa"=>$schoolAddress,"bydlisko"=>$city,
             "bydlisko_adresa"=>$address,"password"=>$hashed_password,"email"=>$email,"active"=>$activasion,"resetToken"=>"","resetComplete"=>"No",);
 
+        $body = "<p>Ďakujem Vám za registráciu</p>
+			<p>Na aktiváciu vášho konta použite nasledujúci odkaz: <a href='".DIR."activate.php?x=$id&y=$activasion'>".DIR."activate.php?x=$id&y=$activasion</a></p>
+			<p>S pozdravom váš super admin</p>";
+
         $userService->createUser($db, $userData, $geoClass);
-        $mailer->sendMail($_POST['email'], $password, "registracia prebehla uspesne", "", 1);
+        $mailer->sendMail($_POST['email'], $password, "registracia prebehla uspesne", $body, 1);
 	}
 }
 
@@ -84,6 +88,7 @@ require('layout/header.php');
 	    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 			<form role="form" method="post" action="#" autocomplete="off">
 				<h2>Zaregistrujte sa</h2>
+                <p><a href='../../index.php'>Naspäť na domovskú stránku</a></p>
 				<p>Máte už účet? <a href='Login.php'>Prihláste sa</a></p>
 				<hr>
 
