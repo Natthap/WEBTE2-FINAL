@@ -70,6 +70,9 @@ if ($_SESSION['personType'] == 1) {
                 </div>
             </div>
         </div>
+        <div class="row justify-content-md-center mapContainer">
+            <button class="btn btn-primary mb-3" onclick="clearSubRoute()">Vycistit mapu</button>
+        </div>
         <div class="row justify-content-md-center">
             <div class="col col-lg border border-primary rounded pb-3">
                 <div id="formDiv">
