@@ -22,9 +22,13 @@ class ServiceGeoCoding {
         // decode the json
         $resp = json_decode($resp_json, true);
 
+        $location = json_encode($resp["results"][0]["geometry"]["location"]);
+
+        $response = $resp["status"];
+
         // response status will be 'OK', if able to geocode given address
-        if($resp['status']=='OK'){
-            return $resp_json;
+        if($response=='OK'){
+            return $location;
         }
 
         else{
