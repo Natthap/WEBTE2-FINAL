@@ -19,6 +19,7 @@ if(!$user->is_logged_in()){
 
 //define page title
 $title = 'Kontakt';
+$contact = 'active';
 
 //include header template
 require('layout/header.php');

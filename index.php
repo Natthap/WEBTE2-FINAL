@@ -39,8 +39,8 @@ require("php/subpages/layout/header.php");
             </div>
         </div>
         <div class="row justify-content-md-center mapContainer">
-            <input id="A" type="button" onclick()="GoogleMapa(1)" data='1' name="Mapa" value="Skola" checked>
-            <input id="B" type="button" onclick()="GoogleMapa(2)" data='2' name="Mapa" value="Bydlisko">
+            <input id="A" class="btn btn-primary m-3" type="button" onclick()="GoogleMapa(1)" data='1' name="Mapa" value="Skola" checked>
+            <input id="B" class="btn btn-primary m-3" type="button" onclick()="GoogleMapa(2)" data='2' name="Mapa" value="Bydlisko">
         </div>
     </div>
 

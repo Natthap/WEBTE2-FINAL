@@ -15,6 +15,7 @@ if(!$user->is_logged_in()){
 
 //define page title
 $title = 'Úvod';
+$home = 'active';
 
 //include header template
 require('layout/header.php');
@@ -22,7 +23,7 @@ require("layout/Menu.php");
 
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="../../js/googleMap.js"></script>
+    <script src="../../js/GoogleMapaIndex.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnj9vchPrrDWFJsZ_OLK8vZr9cFoAhYnI" ></script>
 
     <div class="container col col-lg-12">
@@ -34,8 +35,24 @@ require("layout/Menu.php");
             <div id="newsDiv" class="col col-lg-3 border border-primary rounded m-3">
             </div>
         </div>
-        <a class="btn btn-primary" href="Logout.php">Odhlásiť sa</a>
+        <div class="row justify-content-md-center mapContainer">
+            <input class="btn btn-primary mr-3" id="A" type="button" onclick()="GoogleMapa(1)" data='1' name="Mapa" value="Skola" checked>
+            <input class="btn btn-primary mr-3" id="B" type="button" onclick()="GoogleMapa(2)" data='2' name="Mapa" value="Bydlisko">
+            <a class="btn btn-primary" href="Logout.php">Odhlásiť sa</a>
+        </div>
     </div>
+
+    <script>
+        $('#A').click(function(event) {
+            var id = $(this).attr('data');
+            GoogleMapa(id);
+        });
+
+        $('#B').click(function(event) {
+            var id = $(this).attr('data');
+            GoogleMapa(id);
+        });
+    </script>
 
 <?php
 //include header template

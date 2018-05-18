@@ -7,10 +7,12 @@ $(document).ready(function () {
             var bydlisko_name = [];
             var json1 = [];
 
+            console.log(window.location.hostname);
+
             $('#data').empty();
             $.ajax({
                 type: 'GET',
-                url: '../semestralnyProjekt/php/rest/RestMap.php',
+                url: '../../../semestralnyProjekt/php/rest/RestMap.php',
                 dataType: 'json',
                 success: function (data) {
                     

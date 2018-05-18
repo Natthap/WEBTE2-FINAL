@@ -15,6 +15,7 @@ if(!$user->is_logged_in()){
 
 //define page title
 $title = 'Tímy';
+$team = 'active';
 
 //include header template
 require('layout/header.php');
