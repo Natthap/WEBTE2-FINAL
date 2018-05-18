@@ -100,15 +100,24 @@ class ServiceSubRoutes
         $stmt->execute();
     }
 
-    function getAverageSpeed($dateTime, $distance)
-    {
-        $date = new DateTime($dateTime);
 
-        $seconds = $date->format('s');
-        $minutes = $date->format('i');
-        $hours = $date->format('H');
-        $time = $hours * 3600 + $minutes * 60 + $seconds;
-        $speed = $distance / $time;
+function getAverageSpeed($startTime, $endTime, $distance) {
+    $dateStart = new DateTime($startTime);
+    $dateEnd = new DateTime($endTime);
+
+    $secondsStart = $dateStart->format('s');
+    $minutesStart = $dateStart->format('i');
+    $hoursStart = $dateStart->format('H');
+    $timeStart = $hoursStart * 3600 + $minutesStart * 60 + $secondsStart;
+
+    $secondsEnd = $dateEnd->format('s');
+    $minutesEnd = $dateEnd->format('i');
+    $hoursEnd = $dateEnd->format('H');
+    $timeEnd = $hoursEnd * 3600 + $minutesEnd * 60 + $secondsEnd;
+
+    $time = $timeEnd-$timeStart;
+
+    $speed = $distance/$time;
 
         return $speed * 3600;
     }
