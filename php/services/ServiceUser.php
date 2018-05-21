@@ -47,8 +47,6 @@ class ServiceUser
     function updateUserData($db, $userData, $id, $geoClass)
     {
 
-        include "ServiceGeoCoding.php";
-
         $sql = "UPDATE members SET email='" . $userData["email"] . "' WHERE id='" . $id . "'";
 
         $stmt = $db->prepare($sql);
@@ -126,12 +124,6 @@ class ServiceUser
             '" . $userData["active"] . "', '" . $userData["resetToken"] . "', 
             '" . $userData["resetComplete"]
             . "')";
-
-        $stmt = $db->prepare($sql);
-
-        $stmt->execute();
-
-        $sql = "SELECT id FROM members WHERE email='" . $userData["email"] . "'";
 
         $stmt = $db->prepare($sql);
 

@@ -65,7 +65,7 @@ if(isset($_POST['submit'])){
         $address = $_POST['address'];
 
         $userData = array("meno"=>$firstName,"priezvisko"=>$lastName,"skola"=>$school,"skola_adresa"=>$schoolAddress,"bydlisko"=>$city,
-            "bydlisko_adresa"=>$address,"password"=>$hashed_password,"email"=>$email,"active"=>$activasion,"resetToken"=>"","resetComplete"=>"No",);
+            "bydlisko_adresa"=>$address,"password"=>$hashed_password,"email"=>$email,"active"=>$activasion,"resetToken"=>"","resetComplete"=>"No");
 
         $body = "<p>Ďakujem Vám za registráciu</p>
 			<p>Na aktiváciu vášho konta použite nasledujúci odkaz: <a href='".DIR."activate.php?x=$id&y=$activasion'>".DIR."activate.php?x=$id&y=$activasion</a></p>

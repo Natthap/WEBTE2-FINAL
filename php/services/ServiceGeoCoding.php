@@ -7,6 +7,7 @@
  */
 
 class ServiceGeoCoding {
+
     // function to geocode address, it will return false if unable to geocode address
     function getGeoJson($address){
 
