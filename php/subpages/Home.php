@@ -52,6 +52,7 @@ require("layout/Menu.php");
             var id = $(this).attr('data');
             GoogleMapa(id);
         });
+        
     </script>
 
 <?php

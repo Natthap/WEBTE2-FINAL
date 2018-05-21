@@ -25,49 +25,52 @@ if ($_SESSION['personType'] == 1) {
     header('Location: Login.php');
     exit();
 }?>
+    <script src="jquery.js"></script>
+    <div class="container">
 
-<div class="container">
-    <div class="row">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Email</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>John</td>
-                <td>kokot2</td>
-                <td>kokot</td>
-            </tr>
-            <tr>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            <tr>
-                <td>July</td>
-                <td>Dooley</td>
-                <td>july@example.com</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="row">
-        <div class="emailForm col-12">
-            <form class="" role="form" method="post" action="#">
-                <div class="form-group">
-                    <label for="exampleFormControlFile1">Example file input</label>
-                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                </div>
-                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-            </form>
+        <div class="row">
+            <div class="emailForm col-12">
+                <form class="" role="form" method="post" action="#">
+                    <div class="form-group">
+                        <label for="exampleFormControlFile1">Example file input</label>
+                        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                    </div>
+                    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
         </div>
+    <div class="row">
+        <table id="data" class='table table-hover'></table>
     </div>
-<div>
+            <script>
+                $('#data').empty();
 
+                $.ajax({
+                    type: 'GET',
+                    url: "../rest/RestUser.php/getAllUsers",
+                    dataType: 'json',
+                    success: function (data) {
+
+                        $('#data').append("<tr><th>Name </th><th>Surname </th></tr>");
+
+
+                        for (i = 0; i < Object.keys(data).length; i++) {
+                            $('#data').append("<tr>"+"<td> "+data[i][0] + "</td>"+"<td> "+data[i][1] + "</td></tr>");
+
+                            
+                        }
+
+                    
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+
+                        alert('GET nefunguje ');
+                        console.log(xhr.status);
+                        //console.log(errorThrown);
+                        console.log(textStatus);
+                    }
+                });
+            </script>
 <?php
 //include header template
 require('layout/footer.php');

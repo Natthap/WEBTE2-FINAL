@@ -31,7 +31,7 @@ if ($_SESSION['personType'] == 1) {
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="../../js/googleMap.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnj9vchPrrDWFJsZ_OLK8vZr9cFoAhYnI&callback=initialize"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnj9vchPrrDWFJsZ_OLK8vZr9cFoAhYnI" ></script>
 
     <div class="container col col-lg-12">
         <div class="row justify-content-md-center mapContainer">
@@ -41,37 +41,34 @@ if ($_SESSION['personType'] == 1) {
             </div>
             <div class="col col-lg-3 border border-primary rounded pb-3 m-3">
                 <div id="tableDiv">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Email</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>John</td>
-                            <td>kokot2</td>
-                            <td>kokot</td>
-                        </tr>
-                        <tr>
-                            <td>Mary</td>
-                            <td>Moe</td>
-                            <td>mary@example.com</td>
-                        </tr>
-                        <tr>
-                            <td>July</td>
-                            <td>Dooley</td>
-                            <td>july@example.com</td>
-                        </tr>
-                        </tbody>
-                    </table>
+<!--                    <table class="table table-hover">-->
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th>Firstname</th>-->
+<!--                            <th>Lastname</th>-->
+<!--                            <th>Email</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--
+<!--                        <tr>-->
+<!--                            <td>Mary</td>-->
+<!--                            <td>Moe</td>-->
+<!--                            <td>mary@example.com</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>July</td>-->
+<!--                            <td>Dooley</td>-->
+<!--                            <td>july@example.com</td>-->
+<!--                        </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+                    <div >
+                        <table id="data" class='table table-hover'>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row justify-content-md-center mapContainer">
-            <button class="btn btn-primary mb-3" onclick="clearSubRoute()">Vycistit mapu</button>
         </div>
         <div class="row justify-content-md-center">
             <div class="col col-lg border border-primary rounded pb-3">
@@ -106,6 +103,37 @@ if ($_SESSION['personType'] == 1) {
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        var id = "<?php echo($_SESSION['memberID']); ?>";
+    </script>
+
+    <script>
+
+        $( document ).ready(function novinky() {
+            $('#data').empty();
+            $.ajax({
+                type: 'GET',
+                url: '../rest/RestSubRoute.php/getAllusersRoute?id='+id,
+                dataType: 'json',
+                success: function (data) {
+                    $length = data[0]
+                    $('#data').append("<tr><th>meno cesty</th><th>active </th></tr>");
+                    for (i = 0; i < data.length; i++) {
+                        $('#data').append("<tr> "+"<td> "+data[i]['name'] + "</td>"+"<td> "+data[i]['active'] + "</td>"+"</tr> ");
+                    }
+
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert('GET nefunguje :/');
+                    console.log(xhr.status);
+                    //console.log(errorThrown);
+                    console.log(textStatus);
+                }
+            });
+        });
+
+    </script>
 
 <?php
 //include header template

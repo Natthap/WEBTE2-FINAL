@@ -1,3 +1,5 @@
+<script src="jquery.js"></script>
+
 <?php
 require('../Config.php');
 
@@ -71,3 +73,4 @@ if(isset($_POST['submit'])){
 <?php
 //include header template
 require('layout/footer.php');
+?>

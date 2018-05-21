@@ -21,7 +21,7 @@ if( $user->is_logged_in() ){
 if(isset($_POST['submit'])){
 	if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])){
                 //your site secret key
-        	$secret = '6LcjzFcUAAAAAMC61X7zptXc6GIr18MHYZ8cRc9j';
+        	$secret = '6LchGFoUAAAAAFwLfWlnb2Vllux3Qk0YhIqDBOIW';
                 //get verify response data
         	$verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
         	$responseData = json_decode($verifyResponse);
@@ -118,7 +118,7 @@ require('layout/header.php');
 					<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Heslo" tabindex="3">
 				</div>
 
-				<div class="g-recaptcha" data-sitekey="6LcjzFcUAAAAAJwGdMJuNhdvZvg1pEchJGIrdOOl"></div>
+				<div class="g-recaptcha" data-sitekey="6LchGFoUAAAAAA0uMrKbNQORv3GAEcfClg5iqJ26"></div>
 				
 				<hr>
 				<div class="row">

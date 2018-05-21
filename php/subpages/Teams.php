@@ -26,39 +26,10 @@ if ($_SESSION['personType'] == 1) {
     exit();
 }
 ?>
-
+<script src="jquery.js"></script>
 <div class="container">
     <div class="row">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Email</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>John</td>
-                <td><a href='TeamEdit.php?id=<?php echo $_SESSION['memberID'];?>'
-                       class="btn btn-primary btn-xs"><i class="far fa-edit"></i> Upraviť</a>
-                </td>
-                <td><a href='TeamEdit.php?id=<?php echo $_SESSION['memberID'];?>'
-                       class="btn btn-primary btn-xs"><i class="fas fa-trash-alt"></i> Vymazať</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            <tr>
-                <td>July</td>
-                <td>Dooley</td>
-                <td>july@example.com</td>
-            </tr>
-            </tbody>
-        </table>
+        <table id="data" class='table table-hover'></table>
     </div>
     <div class="row">
         <div class="emailForm col-12">
@@ -107,8 +78,39 @@ if ($_SESSION['personType'] == 1) {
             </form>
         </div>
     </div>
-<div>
+    <div>
 
-<?php
+        <script>
+            $('#data').empty();
+
+            $.ajax({
+                type: 'GET',
+                url: "../rest/RestTeam.php/getAllTeams",
+                dataType: 'json',
+                success: function(data) {
+
+
+                    $('#data').append("<tr><th>Name</th></tr>")
+
+
+                    for (i = 0; i < data.length; i++) {
+                      //  $('#data').append("<tr> ");
+                        $('#data').append("<tr><td> " + "&nbsp " + data[i]['nazov'] + "</td></tr>");
+                       // $('#data').append("</tr> ");
+                    }
+                    $('#data').append("</table>");
+                },
+                error: function(xhr, textStatus, errorThrown) {
+
+                    alert('GET nefunguje ');
+                    console.log(xhr.status);
+                    //console.log(errorThrown);
+                    console.log(textStatus);
+                }
+            });
+
+        </script>
+
+        <?php
 //include header template
 require('layout/footer.php');
