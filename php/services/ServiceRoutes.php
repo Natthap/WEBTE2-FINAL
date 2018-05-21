@@ -60,6 +60,20 @@ class ServiceRoutes
 
         return $result;
     }
+        
+    //return active route of user
+      function getActiveRouteOfUser($db, $userID){
+        $sql = "SELECT * FROM routes WHERE active='1' and FK_members='" . $userID . "'";
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
 
     function createTeamRelayRoute($db, $routeData)
     {
