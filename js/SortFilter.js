@@ -9,7 +9,7 @@ function sortTable(n,id) {
     while (switching) {
         // Start by saying: no switching is done:
         switching = false;
-        rows = table.getElementsByTagName("TR");
+        rows = table.getElementsByTagName("tr");
         /* Loop through all table rows (except the
         first, which contains table headers): */
         for (i = 1; i < (rows.length - 1); i++) {
@@ -17,8 +17,8 @@ function sortTable(n,id) {
             shouldSwitch = false;
             /* Get the two elements you want to compare,
             one from current row and one from the next: */
-            x = rows[i].getElementsByTagName("TD")[n];
-            y = rows[i + 1].getElementsByTagName("TD")[n];
+            x = rows[i].getElementsByTagName("td")[n];
+            y = rows[i + 1].getElementsByTagName("td")[n];
             /* Check if the two rows should switch place,
             based on the direction, asc or desc: */
             if (dir == "asc") {

@@ -69,7 +69,7 @@ class ServiceTeam
 
     function getTeamName($db, $id)
     {
-        $sql = "SELECT nazov FROM teams WHERE $id='" . $id . "'";
+        $sql = "SELECT * FROM teams WHERE $id=".$id;
 
         $stmt = $db->prepare($sql);
 

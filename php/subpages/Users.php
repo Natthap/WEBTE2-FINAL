@@ -54,42 +54,56 @@ if(isset($_POST["submit"])) {
 }
 
 ?>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
-<div class="container">
-    <div class="row">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Meno</th>
-                <th>Priezvisko</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php
-            foreach ($results as $row) {
-                echo "<tr>
-                    <td>".$row[0]."</td>
-                    <td>".$row[1]."</td>
-                    <td>".$row[2]."</td>
-                </tr>";
-            }
-            ?>
-            </tbody>
-        </table>
-    </div>
-    <div class="row">
-        <div class="emailForm col-12">
-            <form class="" role="form" method="post" action="#" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="fileInput">Vlozte subor</label>
-                    <input type="file" name="fileInput" class="form-control-file" id="fileInput">
-                </div>
-                <button type="submit" name="submit" class="btn btn-primary">Odoslat</button>
-            </form>
+    <div class="container">
+        <div class="row">
+            <table id="users" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Meno</th>
+                    <th>Priezvisko</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                foreach ($results as $row) {
+                    echo "<tr>
+                        <td>".$row[0]."</td>
+                        <td><a href='UserRoutes.php?id=".$row[0]."'>".$row[1]."</a></td>
+                        <td>".$row[2]."</td>
+                    </tr>";
+                }
+                ?>
+                </tbody>
+            </table>
         </div>
-    </div>
-<div>
+        <div class="row">
+            <div class="emailForm col-12">
+                <form role="form" method="post" action="#" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="fileInput">Vlozte subor</label>
+                        <input type="file" name="fileInput" class="form-control-file" id="fileInput">
+                    </div>
+                    <button type="submit" name="submit" class="btn btn-primary">Odoslat</button>
+                </form>
+            </div>
+        </div>
+    <div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#users tr').click(function() {
+                var href = $(this).find("a").attr("href");
+                if(href) {
+                    window.location = href;
+                }
+            });
+
+        });
+    </script>
 
 <?php
 //include header template

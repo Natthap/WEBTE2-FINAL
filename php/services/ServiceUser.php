@@ -22,7 +22,7 @@ class ServiceUser
         $sql = "SELECT 
             members.email, memberData.meno, memberData.priezvisko, 
             memberData.skola_adresa, memberData.bydlisko_adresa, memberData.skola, 
-            memberData.bydlisko, memberData.skola_GPS, memberData.bydlisko_GPS 
+            memberData.bydlisko, memberData.skola_GPS, memberData.bydlisko_GPS, memberData.subscribed
             FROM members 
             INNER JOIN memberData ON members.id=memberData.FK_Members 
             WHERE members.id='" . $id . "'";
@@ -61,7 +61,7 @@ class ServiceUser
             meno='" . $userData["meno"] . "', priezvisko='" . $userData["priezvisko"] . "',
             skola_adresa='" . $userData["skola_adresa"] . "', bydlisko_adresa='" . $userData["bydlisko_adresa"] . "', 
             skola='" . $userData["skola"] . "', bydlisko='" . $userData["bydlisko"] . "', 
-            skola_GPS='" . $userData["skola_GPS"] . "', bydlisko_GPS='" . $userData["bydlisko_GPS"] . "'
+            skola_GPS='" . $userData["skola_GPS"] . "', bydlisko_GPS='" . $userData["bydlisko_GPS"] . "', subscribed='" . $userData["subscribed"] . "'
             WHERE  FK_Members='" . $id . "'";
 
         $stmt = $db->prepare($sql);
@@ -75,7 +75,7 @@ class ServiceUser
      */
     function getAllUsers($db)
     {
-        $sql = "SELECT FK_Members as id, meno, priezvisko FROM memberData";
+        $sql = "SELECT FK_Members as id, meno, priezvisko, subscribed FROM memberData";
 
         $stmt = $db->prepare($sql);
 
@@ -84,7 +84,7 @@ class ServiceUser
         $result = array();
         $index = 0;
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $result[$index] = array($row["id"], $row["meno"], $row["priezvisko"]);
+            $result[$index] = array($row["id"], $row["meno"], $row["priezvisko"], $row["subscribed"]);
             $index++;
         }
 
