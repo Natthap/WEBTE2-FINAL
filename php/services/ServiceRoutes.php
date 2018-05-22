@@ -110,5 +110,17 @@ class ServiceRoutes
 
         return $result;
     }
+
+    function getActiveRouteOfUser($db, $id) {
+        $sql = "SELECT * FROM routes WHERE active='1' AND FK_members='".$id."'";
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
 }
 ?>

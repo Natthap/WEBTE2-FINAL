@@ -25,12 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
     //return array of USER active route at [0] and routes's subroutes at []
     //test: RestSubRoute.php/getActiveRouteOfUser?id=2
     if($request[0] == "getActiveRouteOfUser"){
-        $arr1 = $route->getActiveRouteOfUser($db,$id);
+        $arr1 = $route->getActiveRouteOfUser($db, $id);
         if (sizeof($arr1)>0){
-        $arr2 = $subroute->getAllSubroutesOfRoute($db,$id);
-        $arr = array_merge($arr1, $arr2);
-        // return all our data to an AJAX call
-        echo json_encode($arr,JSON_PRETTY_PRINT);
+            $arr2 = $subroute->getAllSubroutesOfRoute($db, $arr1[0]["id"]);
+            $arr = array_merge($arr1, $arr2);
+            // return all our data to an AJAX call
+            echo json_encode($arr,JSON_PRETTY_PRINT);
             }
     }
     

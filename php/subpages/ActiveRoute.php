@@ -2,8 +2,10 @@
 
 //include the user class, pass in the database connection
 include('classes/user.php');
+include('../services/ServiceSubRoutes.php');
 
 $user = new User($db);
+$subroute = new ServiceSubRoutes();
 
 ob_start();
 session_start();
@@ -28,6 +30,14 @@ if ($_SESSION['personType'] == 2) {
 }
 if ($_SESSION['personType'] == 1) {
 
+}
+
+if(isset($_POST['submit'])) {
+    $speed = $subroute->getAverageSpeed($_POST['startTime'], $_POST['endTime'], $_POST['distance']);
+
+    $userData = array("routeID" => $_POST['routeID'], "rating" => $_POST['rating'], "start" => $_POST['startTime'], "end" => $_POST['endTime'], "geojson" => $_POST['gps'], "speed" => $speed, "notes" => $_POST['note']);
+
+    $subroute->createUsersSubroute($db, $userData);
 }
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -57,16 +67,25 @@ if ($_SESSION['personType'] == 1) {
                             <input type="hidden" name="gps" class="form-control" id="gps" value="">
                         </div>
                         <div class="form-group">
+                            <input type="hidden" name="distance" class="form-control" id="distance" value="">
+                        </div>
+                        <div class="form-group">
                             <label for="startTime">Zaciatocny cas</label>
-                            <input type="text" name="startTime" class="form-control" id="startTime" placeholder="Zaciatocny cas">
+                            <input type="datetime-local" name="startTime" class="form-control" id="startTime" placeholder="Zaciatocny cas">
                         </div>
                         <div class="form-group">
                             <label for="endTime">Koncovy cas</label>
-                            <input type="text" name="endTime" class="form-control" id="endTime" placeholder="Koncovy cas">
+                            <input type="datetime-local" name="endTime" class="form-control" id="endTime" placeholder="Koncovy cas">
                         </div>
                         <div class="form-group">
                             <label for="rating">Hodnotenie</label>
-                            <input type="text" name="rating" class="form-control" id="rating" placeholder="Hodnotenie">
+                            <select name="rating" class="form-control" id="rating">
+                                <option value="1">A</option>
+                                <option value="2">B</option>
+                                <option value="3">C</option>
+                                <option value="4">D</option>
+                                <option value="5">E</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="note">Poznamka</label>
@@ -86,14 +105,26 @@ if ($_SESSION['personType'] == 1) {
             $('#tableDiv').empty();
             $.ajax({
                 type: 'GET',
-                url: '../rest/RestSubRoute.php/getAllusersRoute?id='+id,
+                url: '../rest/RestSubRoute.php/getActiveRouteOfUser?id='+id,
                 dataType: 'json',
                 success: function (data) {
-                    $('#tableDiv').append("<table class='table table-hover'><thead><tr><th>meno cesty</th><th>active</th></tr></thead><tbody id='body'>");
+                    console.log(data);
+                    $('#tableDiv').append("<table class='table table-hover'><thead><tr><th>Zaciatok</th><th>Koniec</th><th>Hodnotenie</th><th>Rychlost</th><th>Poznamka</th></tr></thead><tbody id='body'>");
                     for (var i = 0; i < data.length; i++) {
-                        $('#body').append("<tr><td>" + data[i]['name'] + "</td><td>" + data[i]['active'] + "</td></tr>");
-                        setRoute(JSON.parse(data[i]['geojson']));
-                        addRoute(JSON.parse(data[i]['geojson']), i != 0 ? 1 : 0);
+                        var value = Math.random();
+                        if(value == 0) {
+                            value += 1;
+                        }
+                        var color = '#'+(value*0xFFFFFF<<0).toString(16)
+                        if(i == 0) {
+                            $("<h2>Trasa: "+ data[i]['name']+"</h2>").insertBefore('#tableDiv');
+                            setRoute(JSON.parse(data[i]['geojson']));
+                            $('form').append("<input type=\"hidden\" name=\"routeID\" class=\"form-control\" id=\"routeID\" value=" + data[i]['id'] + ">");
+                        } else {
+                            $('#body').append("<tr style='color:"+ color+";'><td>" + data[i]['startTime'] + "</td><td>" + data[i]['endTime'] + "</td><td>" + data[i]['rating'] + "</td><td>" + data[i]['averageSpeed'] + "</td><td>" + data[i]['notes'] + "</td></tr>");
+                            setSubRoutes(JSON.parse(data[i]['geojson']));
+                        }
+                        addRoute(JSON.parse(data[i]['geojson']), i != 0 ? value : 0);
                     }
                     $('#tableDiv').append("</tbody></table>");
 
