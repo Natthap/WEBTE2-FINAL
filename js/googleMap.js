@@ -6,6 +6,7 @@
     var directions;
     var renderer;
     var polylines = [];
+    var listener;
 
     function initialize() {
         var latlng = new google.maps.LatLng(48.750086, 19.669258);
@@ -20,7 +21,7 @@
             suppressPolylines: true
         });
         
-        if(!route) {
+        listener =
             google.maps.event.addListener(map, 'click', function (event) {
                 placeMarker(event.latLng);
                 if (markers.length == 2) {
@@ -36,10 +37,11 @@
                         destination: dest,
                         travelMode: google.maps.DirectionsTravelMode.WALKING
                     };
-                    addRoute(request, 1);
+                    addRoute(request, Math.random());
+                    google.maps.event.removeListener(listener);
                 }
             });
-        }
+
     }
 
     function addRoute(request, value) {
@@ -48,17 +50,18 @@
                 renderer.setDirections(response);
                 renderer.setMap(map);
                 var polylineOptions = {
-                    strokeColor: '#'+(Math.random()*0xFFFFFF<<0).toString(16),
+                    strokeColor: '#'+(value*0xFFFFFF<<0).toString(16),
                     strokeOpacity: 1,
                     strokeWeight: 4
                 };
                 if(value == 0) {
-                    polylineOptions.strokeOpacity = 0.2;
+                    polylineOptions.strokeOpacity = 0.3;
+                    polylineOptions.strokeColor = "#0000FF";
                 } else {
                     $('#gps').val(JSON.stringify(request));
+                    $('#distance').val(response.routes[0].legs[0].distance.value/1000);
                 }
                 renderDirectionsPolylines(response,polylineOptions, value);
-                console.log(renderer.getDirections());
             } else {
                 renderer.setMap(null);
                 renderer.setPanel(null);
@@ -77,7 +80,7 @@
                 for (k = 0; k < nextSegment.length; k++) {
                     stepPolyline.getPath().push(nextSegment[k]);
                 }
-                if(value == 1) {
+                if(value != 0) {
                     polylines.push(stepPolyline);
                 }
                 stepPolyline.setMap(map);
@@ -85,12 +88,13 @@
                 google.maps.event.addListener(stepPolyline, 'click', function(evt) {
                     placeMarker(evt.latLng);
                 })
+
             }
         }
     }
 
     function placeMarker(location) {
-        if(!request) {
+     //   if(!request) {
             var marker = new google.maps.Marker({
                 position: location,
                 map: map,
@@ -99,7 +103,7 @@
             if(subRoutes.length != 0 || route) {
                 if(subRoutes.length != 0) {
                     request1 = {
-                        origin: new google.maps.LatLng(subRoutes[subRoutes.length-1].destination.getLat(), subRoutes[subRoutes.length-1].destination.getLng()),
+                        origin: new google.maps.LatLng(subRoutes[subRoutes.length-1].destination.lat, subRoutes[subRoutes.length-1].destination.lng),
                         destination: new google.maps.LatLng (marker.getPosition().lat(), marker.getPosition().lng()),
                         travelMode: google.maps.DirectionsTravelMode.WALKING
                     };
@@ -122,7 +126,7 @@
                 removeMarker(marker);
             });
             markers.push(marker);
-        }
+       // }
     }
 
     function removeMarker(marker) {
@@ -130,32 +134,64 @@
     }
 
     function clearSubRoute() {
-        for (var i=0; i<polylines.length; i++) {
-                    polylines[i].setMap(null);
-                }
-                polylines = [];
+        for(var i=0; i<polylines.length; i++) {
+            polylines[i].setMap(null);
+        }
+        polylines = [];
         $('#gps').val("");
+        $('#distance').val("");
+        var request1;
+        if(subRoutes.length != 0) {
+            request1 = {
+                origin: new google.maps.LatLng(subRoutes[subRoutes.length-1].origin.lat, subRoutes[subRoutes.length-1].origin.lng),
+                destination: new google.maps.LatLng(subRoutes[subRoutes.length-1].destination.lat, subRoutes[subRoutes.length-1].destination.lng),
+                travelMode: google.maps.DirectionsTravelMode.WALKING
+            };
 
-            if(subRoutes.length != 0) {
-                request1 = {
-                    origin: new google.maps.LatLng(subRoutes[subRoutes.length-1].origin.getLat(), subRoutes[subRoutes.length-1].origin.getLng()),
-                    destination: new google.maps.LatLng(subRoutes[subRoutes.length-1].destination.getLat(), subRoutes[subRoutes.length-1].destination.getLng()),
-                    travelMode: google.maps.DirectionsTravelMode.WALKING
-                };
-
-            } else if(route) {
-                request1 = {
-                    origin: new google.maps.LatLng(route.origin.lat, route.origin.lng),
-                    destination: new google.maps.LatLng (route.destination.lat, route.destination.lng),
-                    travelMode: google.maps.DirectionsTravelMode.WALKING
-                };
-            }
-
-        directions.route(request1, function(response, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
-                renderer.setDirections(response);
-            }
+        } else if(route) {
+            request1 = {
+                origin: new google.maps.LatLng(route.origin.lat, route.origin.lng),
+                destination: new google.maps.LatLng (route.destination.lat, route.destination.lng),
+                travelMode: google.maps.DirectionsTravelMode.WALKING
+            };
+        }
+        if(request1) {
+            directions.route(request1, function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    renderer.setDirections(response);
+                }
             });
+        } else {
+            renderer.setMap(null);
+            listener = google.maps.event.addListener(map, 'click', function (event) {
+                placeMarker(event.latLng);
+                if (markers.length == 2) {
+
+                    var org = new google.maps.LatLng(markers[0].getPosition().lat(), markers[0].getPosition().lng());
+                    var dest = new google.maps.LatLng(markers[1].getPosition().lat(), markers[1].getPosition().lng());
+
+                    google.maps.event.trigger(markers[1], 'click');
+                    google.maps.event.trigger(markers[0], 'click');
+
+                    request = {
+                        origin: org,
+                        destination: dest,
+                        travelMode: google.maps.DirectionsTravelMode.WALKING
+                    };
+                    addRoute(request, Math.random());
+                    google.maps.event.removeListener(listener);
+                }
+            });
+        }
+    }
+
+    function setRoute(data) {
+        route = data;
+        google.maps.event.removeListener(listener);
+    }
+
+    function setSubRoutes(data) {
+        subRoutes.push(data);
     }
 
 

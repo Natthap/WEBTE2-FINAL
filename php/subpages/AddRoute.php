@@ -2,10 +2,12 @@
 
 //include the user class, pass in the database connection
 include('classes/user.php');
+include('../services/ServiceRoutes.php');
 $user = new User($db);
+$route = new ServiceRoutes();
 
-ob_start();
 session_start();
+error_reporting(0);
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){
@@ -27,6 +29,11 @@ if ($_SESSION['personType'] == 2) {
 if ($_SESSION['personType'] == 1) {
 
 }
+
+if(isset($_POST['submit'])) {
+    $userData = array("name" => $_POST['name'], "userID" => $_SESSION['memberID'], "active" => '0', "geojson" => $_POST['gps'], "type" => $_POST['type']);
+    $route->createUserRoute($db, $userData);
+}
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="../../js/googleMap.js"></script>
@@ -46,7 +53,10 @@ if ($_SESSION['personType'] == 1) {
                     </div>
                     <div class="form-group">
                         <label for="type">Typ</label>
-                        <input type="text" name="type" class="form-control" id="type" placeholder="Typ">
+                        <select name="type" class="form-control" id="type">
+                            <option value="0">Sukromna trasa</option>
+                            <option value="1">Verejna trasa</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <input type="hidden" name="gps" class="form-control" id="gps" value="">
@@ -54,6 +64,9 @@ if ($_SESSION['personType'] == 1) {
                     <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
+        </div>
+        <div class="row justify-content-md-center mapContainer">
+            <button class="btn btn-primary mb-3" onclick="clearSubRoute()">Vycistit mapu</button>
         </div>
     </div>
 

@@ -15,6 +15,7 @@
                 <a class="nav-item nav-link <?php if(isset($users)){ echo $users; }?>" href="Users.php">Všetci používatelia</a>
                 <a class="nav-item nav-link <?php if(isset($team)){ echo $team; }?>" href="Teams.php">Tímy</a>
             <?php } ?>
+            <a class="nav-item nav-link" href="Logout.php">Odhlásiť sa</a>
         </div>
     </div>
 </nav>

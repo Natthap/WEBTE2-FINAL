@@ -22,7 +22,7 @@ class ServiceUser
         $sql = "SELECT 
             members.email, memberData.meno, memberData.priezvisko, 
             memberData.skola_adresa, memberData.bydlisko_adresa, memberData.skola, 
-            memberData.bydlisko, memberData.skola_GPS, memberData.bydlisko_GPS 
+            memberData.bydlisko, memberData.skola_GPS, memberData.bydlisko_GPS, memberData.subscribed
             FROM members 
             INNER JOIN memberData ON members.id=memberData.FK_Members 
             WHERE members.id='" . $id . "'";
@@ -47,8 +47,6 @@ class ServiceUser
     function updateUserData($db, $userData, $id, $geoClass)
     {
 
-        include "ServiceGeoCoding.php";
-
         $sql = "UPDATE members SET email='" . $userData["email"] . "' WHERE id='" . $id . "'";
 
         $stmt = $db->prepare($sql);
@@ -57,13 +55,13 @@ class ServiceUser
 
         $userData["skola_GPS"] = $geoClass->getGeoJson($userData["skola_adresa"]);
 
-        $userData["bydlisko_GPS"] = $geoClass->getGeoJson($userData["bydlisko_adresa"]);
+        $userData["bydlisko_GPS"] = $geoClass->getGeoJson($userData["bydlisko_adresa"].", ".$userData["bydlisko"]);
 
         $sql = "UPDATE memberData SET 
             meno='" . $userData["meno"] . "', priezvisko='" . $userData["priezvisko"] . "',
             skola_adresa='" . $userData["skola_adresa"] . "', bydlisko_adresa='" . $userData["bydlisko_adresa"] . "', 
             skola='" . $userData["skola"] . "', bydlisko='" . $userData["bydlisko"] . "', 
-            skola_GPS='" . $userData["skola_GPS"] . "', bydlisko_GPS='" . $userData["bydlisko_GPS"] . "'
+            skola_GPS='" . $userData["skola_GPS"] . "', bydlisko_GPS='" . $userData["bydlisko_GPS"] . "', subscribed='" . $userData["subscribed"] . "'
             WHERE  FK_Members='" . $id . "'";
 
         $stmt = $db->prepare($sql);
@@ -77,15 +75,17 @@ class ServiceUser
      */
     function getAllUsers($db)
     {
-        $sql = "SELECT FK_Members as id, meno, priezvisko FROM memberData";
+        $sql = "SELECT FK_Members as id, meno, priezvisko, subscribed FROM memberData";
 
         $stmt = $db->prepare($sql);
 
         $stmt->execute();
 
         $result = array();
+        $index = 0;
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $result[$row["id"]] = array($row["meno"], $row["priezvisko"]);
+            $result[$index] = array($row["id"], $row["meno"], $row["priezvisko"], $row["subscribed"]);
+            $index++;
         }
 
         return $result;
@@ -117,7 +117,7 @@ class ServiceUser
     {
         $userData["skola_GPS"] = $geoClass->getGeoJson($userData["skola_adresa"]);
 
-        $userData["bydlisko_GPS"] = $geoClass->getGeoJson($userData["bydlisko_adresa"]);
+        $userData["bydlisko_GPS"] = $geoClass->getGeoJson($userData["bydlisko_adresa"].", ".$userData["bydlisko"]);
 
         $sql = "INSERT INTO members (password, email, created, personType, active, resetToken, resetComplete)
             VALUES (
@@ -126,12 +126,6 @@ class ServiceUser
             '" . $userData["active"] . "', '" . $userData["resetToken"] . "', 
             '" . $userData["resetComplete"]
             . "')";
-
-        $stmt = $db->prepare($sql);
-
-        $stmt->execute();
-
-        $sql = "SELECT id FROM members WHERE email='" . $userData["email"] . "'";
 
         $stmt = $db->prepare($sql);
 

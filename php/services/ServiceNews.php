@@ -36,8 +36,6 @@ class ServiceNews
      */
     function addnews($db, $text)
     {
-
-
         $current_date = date('Y-m-d H:i:s');
         $sql = "INSERT INTO news (text, time) VALUES ('" . $text . "','" . $current_date . "')";
 

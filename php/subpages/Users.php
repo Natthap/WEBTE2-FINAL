@@ -2,10 +2,16 @@
 
 //include the user class, pass in the database connection
 include('classes/user.php');
+include('../services/ServiceUser.php');
+include('../services/ServiceFileHandler.php');
+
 $user = new User($db);
+$userService = new ServiceUser();
+$fileHandler = new ServiceFileHandler();
 
 ob_start();
 session_start();
+error_reporting(0);
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){
@@ -24,49 +30,80 @@ require("layout/Menu.php");
 if ($_SESSION['personType'] == 1) {
     header('Location: Login.php');
     exit();
-}?>
+}
 
-<div class="container">
-    <div class="row">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Email</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>John</td>
-                <td>kokot2</td>
-                <td>kokot</td>
-            </tr>
-            <tr>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            <tr>
-                <td>July</td>
-                <td>Dooley</td>
-                <td>july@example.com</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="row">
-        <div class="emailForm col-12">
-            <form class="" role="form" method="post" action="#">
-                <div class="form-group">
-                    <label for="exampleFormControlFile1">Example file input</label>
-                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                </div>
-                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-            </form>
+$results = $userService->getAllUsers($db);
+
+if(isset($_POST["submit"])) {
+    $uploadDir = 'https://147.175.98.140/semestralnyProjekt/php/subpages/uploads/';
+    $uploadFile = $uploadDir . basename($_FILES['fileInput']['name']);
+
+    echo '<pre>';
+    if (move_uploaded_file($_FILES['fileInput']['tmp_name'], $uploadfile)) {
+        echo "File is valid, and was successfully uploaded.\n";
+        $fileHandler->filehandler($db, $uploadFile);
+    } else {
+        echo "Possible file upload attack!\n";
+        $fileHandler->filehandler($db, $uploadFile);
+    }
+
+    echo 'Here is some more debugging info:';
+    print_r($_FILES);
+
+    print "</pre>";
+}
+
+?>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+    <div class="container">
+        <div class="row">
+            <table id="users" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Meno</th>
+                    <th>Priezvisko</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                foreach ($results as $row) {
+                    echo "<tr>
+                        <td>".$row[0]."</td>
+                        <td><a href='UserRoutes.php?id=".$row[0]."'>".$row[1]."</a></td>
+                        <td>".$row[2]."</td>
+                    </tr>";
+                }
+                ?>
+                </tbody>
+            </table>
         </div>
-    </div>
-<div>
+        <div class="row">
+            <div class="emailForm col-12">
+                <form role="form" method="post" action="#" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="fileInput">Vlozte subor</label>
+                        <input type="file" name="fileInput" class="form-control-file" id="fileInput">
+                    </div>
+                    <button type="submit" name="submit" class="btn btn-primary">Odoslat</button>
+                </form>
+            </div>
+        </div>
+    <div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#users tr').click(function() {
+                var href = $(this).find("a").attr("href");
+                if(href) {
+                    window.location = href;
+                }
+            });
+
+        });
+    </script>
 
 <?php
 //include header template

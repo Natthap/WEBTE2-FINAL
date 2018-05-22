@@ -16,12 +16,17 @@ if(!$user->is_logged_in()){
 
 //define page title
 $title = 'História trás';
-$history = 'active';
 
 //include header template
 require('layout/header.php');
 require("layout/Menu.php");
 
+if ($_SESSION['personType'] == 2) {
+
+}
+if ($_SESSION['personType'] == 1) {
+
+}
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="../../js/googleMap2.js"></script>
@@ -39,7 +44,7 @@ require("layout/Menu.php");
         </div>
     </div>
     <script>
-        initializeAll(<?php echo($_SESSION['memberID']); ?>, <?php echo($_SESSION['personType']); ?>)
+        initializeAll(<?php echo $_GET['id']; ?>)
     </script>
 <?php
 //include header template

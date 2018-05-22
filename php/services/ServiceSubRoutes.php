@@ -66,7 +66,7 @@ class ServiceSubRoutes
 
     function getAllSubroutesOfUser($db, $userID)
     {
-        $sql = "SELECT * FROM subroutes_relay WHERE FK_user='" . $userID . "'";
+        $sql = "SELECT * FROM subroutes WHERE FK_user='" . $userID . "'";
 
         $stmt = $db->prepare($sql);
 
@@ -120,5 +120,16 @@ function getAverageSpeed($startTime, $endTime, $distance) {
     $speed = $distance/$time;
 
         return $speed * 3600;
+    }
+
+    function getAllSubroutes($db)
+    {
+        $sql = "SELECT * FROM subroutes";
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

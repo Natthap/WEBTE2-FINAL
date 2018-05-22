@@ -48,6 +48,19 @@ class ServiceRoutes
         return $result;
     }
 
+    function getAllRoutes($db) {
+
+    $sql = "SELECT * FROM routes";
+
+    $stmt = $db->prepare($sql);
+
+    $stmt->execute();
+
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
     function getAllPublicRoutes($db)
     {
         $sql = "SELECT * FROM routes WHERE type='0'";
@@ -100,7 +113,19 @@ class ServiceRoutes
 
     function getAllRelayRoutes($db)
     {
-        $sql = "SELECT * FROM routes_ralay";
+        $sql = "SELECT * FROM routes_relay";
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
+    function getActiveRouteOfUser($db, $id) {
+        $sql = "SELECT * FROM routes WHERE active='1' AND FK_members='".$id."'";
 
         $stmt = $db->prepare($sql);
 

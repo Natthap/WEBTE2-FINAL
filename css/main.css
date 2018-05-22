@@ -1,9 +1,11 @@
 #loginDiv, #newsDiv {
-	min-height: 200px;
+	min-height: 250px;
+	word-wrap: break-word;
 }
 
 #mapDiv {
-	min-height: 400px;
+	min-height: 500px;
+	word-wrap: break-word;
 }
 
 .bg-danger, .bg-success {

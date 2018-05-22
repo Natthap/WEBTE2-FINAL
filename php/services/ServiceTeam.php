@@ -6,8 +6,6 @@
  * Time: 13:53
  */
 
-include "ServiceUser.php";
-
 class ServiceTeam
 {
 
@@ -17,7 +15,7 @@ class ServiceTeam
      * Name must be unique so use function isUsed before.
      * arguments: db connection, name of team, array of ID of users
      */
-    function addTeam($db, $nazov, $listOfUsersID)
+    function addTeam($db, $nazov, $listOfUsersID, $userService)
     {
 
         $sql = "INSERT INTO teams (nazov) VALUES ('" . $nazov . "')";
@@ -26,10 +24,10 @@ class ServiceTeam
 
         $stmt->execute();
 
-        $row = getTeamID($db, $nazov);
+        $row = $userService->getTeamID($db, $nazov);
 
         foreach ($listOfUsersID as $userID) {
-            updateUsersTeam($db, $userID, $row["id"]);
+            $userService->updateUsersTeam($db, $userID, $row["id"]);
         }
     }
 
@@ -37,7 +35,7 @@ class ServiceTeam
      * Function will update name of team and users in team by ID of team.
      * arguments: db connection, ID of team, Name of team, array of User ID
      */
-    function updateTeam($db, $teamID, $nazov, $listOfUsersID)
+    function updateTeam($db, $teamID, $nazov, $listOfUsersID, $userService)
     {
         $sql = "UPDATE teams SET nazov='" . $nazov . "' WHERE id='" . $teamID . "'";
 
@@ -46,7 +44,7 @@ class ServiceTeam
         $stmt->execute();
 
         foreach ($listOfUsersID as $userID) {
-            updateUsersTeam($db, $userID, $teamID);
+            $userService->updateUsersTeam($db, $userID, $teamID);
         }
     }
 
@@ -67,6 +65,19 @@ class ServiceTeam
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $row["id"];
+    }
+
+    function getTeamName($db, $id)
+    {
+        $sql = "SELECT * FROM teams WHERE $id=".$id;
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row["nazov"];
     }
 
     /*
