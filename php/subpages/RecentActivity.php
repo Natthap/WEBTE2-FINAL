@@ -24,7 +24,7 @@ require("layout/Menu.php");
 
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="../../js/JSFunctions.js"></script>
+    <script src="../../js/SortFilter.js"></script>
     <div class="container">
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -53,7 +53,7 @@ require("layout/Menu.php");
                 url: "../rest/RestRoute.php/getAllSubroutesOfUser?id="+id,
                 dataType: 'json',
                 success: function (data) {
-                    $('#data').append("<table class='table table-hover'><tr><th>notes 1 </th><th>average speed </th><th>start time</th><th>end time</th></tr>");
+                    $('#data').append("<table id='tabulka2' class='table table-hover'><tr><th onclick='sortTable(1,tabulka2)'>notes 1 </th><th onclick='sortTable(2,tabulka2)'>average speed </th><th onclick='sortTable(3,tabulka2)'>start time</th><th>end time</th></tr>");
 
                     for (var i = 0; i < data.length; i++) {
                         $('#data').append("<tr> "+"<td> "+data[i]['notes'] + "</td>"+"<td> "+data[i]['averageSpeed'] + "</td>"+"<td> "+data[i]['startTime'] + "</td>"+"<td> "+data[i]['endTime'] + "</td>"+"</tr> ");
