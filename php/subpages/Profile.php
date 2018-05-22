@@ -37,14 +37,23 @@ if(isset($_POST['submit'])){
     $skola_adresa = $_POST['skola_adresa'];
     $bydlisko = $_POST['bydlisko'];
     $bydlisko_adresa = $_POST['bydlisko_adresa'];
+    $subscribed = $_POST['subscribed'];
+
+    if ($subscribed != 1) {
+        $subscribed = 0;
+    }
 
     $userData = array("meno"=>$meno,"priezvisko"=>$priezvisko,"skola"=>$skola,"skola_adresa"=>$skola_adresa,"bydlisko"=>$bydlisko,
-        "bydlisko_adresa"=>$bydlisko_adresa,"email"=>$email);
+        "bydlisko_adresa"=>$bydlisko_adresa,"email"=>$email,"subscribed"=>$subscribed);
 
     $userService->updateUserData($db, $userData, $id, $geoClass);
 }
 
 $row = $userService->getUserData($db, $id);
+$checked = "";
+if ($row['subscribed'] == 1) {
+    $checked = 'checked';
+}
 ?>
 
 <div class="container">
@@ -83,6 +92,10 @@ $row = $userService->getUserData($db, $id);
                 <label for=\"bydlisko_adresa\">Adresa bydliska</label>
                 <input type=\"text\" name=\"bydlisko_adresa\" class=\"form-control\" id=\"bydlisko_adresa\"
                        value=\"".$row['bydlisko_adresa']."\">
+            </div>
+            <div class=\"form-check\">
+                <input type=\"checkbox\" name='subscribed' class=\"form-check-input\" id=\"subscribed\" value='1' ".$checked.">
+                <label class=\"form-check-label\" for=\"subscribed\">Odoberat novinky?</label>
             </div>
             <button type=\"submit\" name=\"submit\" class=\"btn btn-primary\">Odoslat</button>";
             ?>

@@ -80,7 +80,7 @@ if(isset($_POST["submit"])) {
     </div>
     <div class="row">
         <div class="emailForm col-12">
-            <form class="" role="form" method="post" action="#" enctype="multipart/form-data">
+            <form role="form" method="post" action="#" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="fileInput">Vlozte subor</label>
                     <input type="file" name="fileInput" class="form-control-file" id="fileInput">
