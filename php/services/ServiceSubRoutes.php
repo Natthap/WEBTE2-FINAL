@@ -121,4 +121,15 @@ function getAverageSpeed($startTime, $endTime, $distance) {
 
         return $speed * 3600;
     }
+
+    function getAllSubroutes($db)
+    {
+        $sql = "SELECT * FROM subroutes";
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

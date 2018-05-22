@@ -45,22 +45,29 @@ require("layout/Menu.php");
 
     <script type="text/javascript">
         var id = "<?php echo($_SESSION['memberID']); ?>";
+        var typ = "<?php echo($_SESSION['personType']); ?>";
+        var path;
 
-        $( document ).ready(function (){
-            console.log(id);
+        $(document).ready(function (){
             $('#data').empty();
             $('#data1').empty();
+            if (typ == 2) {
+                path = "../rest/RestRoute.php/getAllSubroutes";
+            }
+            if (typ == 1) {
+                path = "../rest/RestRoute.php/getAllSubroutesOfUser?id="+id;
+            }
             $.ajax({
                 type: 'GET',
-                url: "../rest/RestRoute.php/getAllSubroutesOfUser?id="+id,
+                url: path,
                 dataType: 'json',
                 success: function (data) {
-                    $('#data').append("<table id='tabulka2' class='table table-hover'><tr><th onclick='sortTable(1,tabulka2)'>notes 1 </th><th onclick='sortTable(2,tabulka2)'>average speed </th><th onclick='sortTable(3,tabulka2)'>start time</th><th>end time</th></tr>");
+                    $('#data').append("<table id='tabulka2' class='table table-hover'><thead><tr><th onclick='sortTable(1,tabulka2)'>notes 1 </th><th onclick='sortTable(2,tabulka2)'>average speed </th><th onclick='sortTable(3,tabulka2)'>start time</th><th>end time</th></tr></thead><tbody id='bodyDef'>");
 
                     for (var i = 0; i < data.length; i++) {
-                        $('#data').append("<tr> "+"<td> "+data[i]['notes'] + "</td>"+"<td> "+data[i]['averageSpeed'] + "</td>"+"<td> "+data[i]['startTime'] + "</td>"+"<td> "+data[i]['endTime'] + "</td>"+"</tr> ");
+                        $('#bodyDef').append("<tr> "+"<td> "+data[i]['notes'] + "</td>"+"<td> "+data[i]['averageSpeed'] + "</td>"+"<td> "+data[i]['startTime'] + "</td>"+"<td> "+data[i]['endTime'] + "</td>"+"</tr> ");
                     }
-                    $('#data').append("</table>");
+                    $('#data').append("</tbody></table>");
                 },
                 error: function (xhr, textStatus) {
                     console.log(xhr.status);
@@ -72,14 +79,20 @@ require("layout/Menu.php");
         $('#nav-tab1').click(function() {
             $('#data').empty();
             $('#data1').empty();
+            if (typ == 2) {
+                path = "../rest/RestRoute.php/getAllSubroutes";
+            }
+            if (typ == 1) {
+                path = "../rest/RestRoute.php/getAllSubroutesOfUser?id="+id;
+            }
             $.ajax({
                 type: 'GET',
-                url: "../rest/RestRoute.php/getAllSubroutesOfUser?id="+id,
+                url: path,
                 dataType: 'json',
                 success: function (data) {
                     $('#data').append("<table id='tabulka' class='table table-hover'><thead><tr><th onclick='sortTable(1,tabulka)'>notes</th><th onclick='sortTable(2,tabulka)'>average speed</th><th onclick='sortTable(3,tabulka)'>start time</th><th onclick='sortTable(4,tabulka)'>end time</th></tr></thead><tbody id='body'>");
 
-                    for (i = 0; i < data.length; i++) {
+                    for (var i = 0; i < data.length; i++) {
                         $('#body').append("<tr><td>"+data[i]['notes'] + "</td><td>"+data[i]['averageSpeed'] + "</td><td>"+data[i]['startTime'] + "</td><td>"+data[i]['endTime'] + "</td></tr>");
                     }
                     $('#data').append("</tbody></table>");
@@ -94,14 +107,20 @@ require("layout/Menu.php");
         $('#nav-tab2').click(function() {
             $('#data').empty();
             $('#data1').empty();
+            if (typ == 2) {
+                path = "../rest/RestRoute.php/getAllSubroutes";
+            }
+            if (typ == 1) {
+                path = "../rest/RestRoute.php/getAllPublicSubRoutes";
+            }
             $.ajax({
                 type: 'GET',
-                url: '../rest/RestRoute.php/getAllPublicSubRoutes',
+                url: path,
                 dataType: 'json',
                 success: function (data) {
                     // $length = data[0]
                     $('#data1').append("<table id='data1' class='table table-hover'<tr><thead><th onclick='sortTable(1,tabulka1)'>notes 2 </th><th onclick='sortTable(2,tabulka1)'>average speed </th><th onclick='sortTable(1,tabulka1)'>start time</th><th onclick='sortTable(3,tabulka1)'>end time</th></tr></thead><tbody id='body1'>")
-                    for (i = 0; i < data.length; i++) {
+                    for (var i = 0; i < data.length; i++) {
                         $('#body1').append("<tr> "+"<td> "+""+data[i]['notes'] + "</td><td>"+data[i]['averageSpeed'] + "</td><td>"+data[i]['startTime'] + "</td><td> "+data[i]['endTime'] + "</td></tr> ");
                     }
                     $('#data1').append("</tbody></table>")

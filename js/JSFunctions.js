@@ -1,4 +1,5 @@
 function initializeAll(id) {
+    console.log(id);
     var data = getDataFromRest(id);
 }
 

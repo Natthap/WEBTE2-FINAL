@@ -45,5 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
         echo json_encode($arr,JSON_PRETTY_PRINT);
     }
 
+    elseif($request[0] == "getAllSubroutes"){
+
+        $arr1 =  $subroute->getAllSubroutes($db);
+        $arr2 =  $subroute->getAllRelaySubroutes($db);
+        $arr = array_merge($arr2, $arr1);
+        // return all our data to an AJAX call
+        echo json_encode($arr,JSON_PRETTY_PRINT);
+    }
+
 }
 ?>
