@@ -42,32 +42,6 @@ if ($_SESSION['personType'] == 1) {
             </div>
             <div class="col col-lg-3 border border-primary rounded pb-3 m-3">
                 <div id="tableDiv">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Email</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>John</td>
-                            <td>kokot2</td>
-                            <td>kokot</td>
-                        </tr>
-                        <tr>
-                            <td>Mary</td>
-                            <td>Moe</td>
-                            <td>mary@example.com</td>
-                        </tr>
-                        <tr>
-                            <td>July</td>
-                            <td>Dooley</td>
-                            <td>july@example.com</td>
-                        </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -107,6 +81,34 @@ if ($_SESSION['personType'] == 1) {
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        var id = "<?php echo($_SESSION['memberID']); ?>";
+
+        $( document ).ready(function novinky() {
+            $('#tableDiv').empty();
+            $.ajax({
+                type: 'GET',
+                url: '../rest/RestSubRoute.php/getAllusersRoute?id='+id,
+                dataType: 'json',
+                success: function (data) {
+                    var length = data[0];
+                    $('#tableDiv').append("<table class='table table-hover'><thead><tr><th>meno cesty</th><th>active</th></tr></thead><tbody>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#tableDiv').append("<tr><td>" + data[i]['name'] + "</td><td>" + data[i]['active'] + "</td></tr>");
+                    }
+                    $('#tableDiv').append("</tbody></table>");
+
+                },
+                error: function (xhr, textStatus) {
+                    alert('GET nefunguje :/');
+                    console.log(xhr.status);
+                    console.log(textStatus);
+                }
+            });
+        });
+
+    </script>
 
 <?php
 //include header template

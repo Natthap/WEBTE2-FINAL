@@ -20,14 +20,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
     $arr[] = $news->getallnews($db);
     // return all our data to an AJAX call
     echo json_encode($arr,JSON_PRETTY_PRINT);
-    
-}  
+
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $request = explode('/', trim($_SERVER['PATH_INFO'],'/'));
-    
+
     addnews($db,$request[0]);
+    http_response_code(201);
 }
 
 

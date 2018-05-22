@@ -82,8 +82,10 @@ class ServiceUser
         $stmt->execute();
 
         $result = array();
+        $index = 0;
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $result[$row["id"]] = array($row["meno"], $row["priezvisko"]);
+            $result[$index] = array($row["id"], $row["meno"], $row["priezvisko"]);
+            $index++;
         }
 
         return $result;

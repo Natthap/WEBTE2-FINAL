@@ -31,6 +31,7 @@ if ($_SESSION['personType'] == 1) {
 }
 
 $results = $userService->getAllUsers($db);
+
 ?>
 
 <div class="container">
@@ -38,20 +39,18 @@ $results = $userService->getAllUsers($db);
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>Lastname</th>
-                <th>Email</th>
+                <th>Id</th>
+                <th>Meno</th>
+                <th>Priezvisko</th>
             </tr>
             </thead>
             <tbody>
             <?php
             foreach ($results as $row) {
-                foreach ($row as $item) {
-                    echo $item;
-                }
-                echo "<br>";
                 echo "<tr>
-                    <td>".$row['meno']."</td>
-                    <td>".$row['priezvisko']."</td>
+                    <td>".$row[0]."</td>
+                    <td>".$row[1]."</td>
+                    <td>".$row[2]."</td>
                 </tr>";
             }
             ?>
