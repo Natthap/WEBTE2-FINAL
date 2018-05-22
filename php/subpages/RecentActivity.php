@@ -99,11 +99,11 @@ require("layout/Menu.php");
                 dataType: 'json',
                 success: function (data) {
                     // $length = data[0]
-                    $('#data1').append("<table id='tabulka1' class='table table-hover'><thead><tr><th onclick='sortTable(1,body1)'>notes 2 </th><th onclick='sortTable(2,body1)'>average speed </th><th onclick='sortTable(1,body1)'>start time</th><th onclick='sortTable(3,body1)'>end time</th></tr></thead><tbody id='body1'>")
+                    $('#data1').append("<table id='tabulka1' class='table table-hover'><tr><th onclick='sortTable(1,tabulka1)'>notes 2 </th><th onclick='sortTable(2,tabulka1)'>average speed </th><th onclick='sortTable(1,tabulka1)'>start time</th><th onclick='sortTable(3,tabulka1)'>end time</th></tr>")
                     for (i = 0; i < data.length; i++) {
                         $('#body1').append("<tr> "+"<td> "+""+data[i]['notes'] + "</td><td>"+data[i]['averageSpeed'] + "</td><td>"+data[i]['startTime'] + "</td><td> "+data[i]['endTime'] + "</td></tr> ");
                     }
-                    $('#data1').append("</tbody></table>");
+                    $('#data1').append("</table>");
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     console.log(xhr.status);
