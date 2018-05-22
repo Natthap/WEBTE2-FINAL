@@ -1,5 +1,8 @@
 <?php
-$id = $_GET["id"];
+$id = null;
+if (isset($_GET["id"])) {
+    $id=$_GET["id"];
+}
 
 // required headers
 header("Access-Control-Allow-Origin: *");
@@ -8,9 +11,7 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../Config.php';
 include_once '../services/ServiceTeam.php';
     
-    
-   
-    $team = new ServiceTeam;
+$team = new ServiceTeam;
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $request = explode('/', trim($_SERVER['PATH_INFO'], '/'));

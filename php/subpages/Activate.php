@@ -8,9 +8,9 @@ session_start();
 $memberID = trim($_GET['x']);
 $active = trim($_GET['y']);
 
-if(is_numeric($memberID) && !empty($active)){
+if($memberID != null && !empty($active)){
 
-	$stmt = $db->prepare("UPDATE members SET active = 'Yes' WHERE id = :memberID AND active = :active");
+	$stmt = $db->prepare("UPDATE members SET active = 'Yes' WHERE email = :memberID AND active = :active");
 	$stmt->execute(array(
 		':memberID' => $memberID,
 		':active' => $active

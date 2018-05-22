@@ -1,6 +1,10 @@
 
 <?php
-$id=$_GET["id"];
+
+$id = null;
+if (isset($_GET["id"])) {
+    $id=$_GET["id"];
+}
 
 // required headers
 header("Access-Control-Allow-Origin: *");
@@ -32,9 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
         // return all our data to an AJAX call
         echo json_encode($arr,JSON_PRETTY_PRINT);
     }
-
-
-
 
     elseif($request[0] == "getAllSubroutesOfUser"){
         //$id = explode('/', trim($_SERVER['PATH_INFO'],'/'));

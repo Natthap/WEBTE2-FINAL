@@ -4,7 +4,6 @@
 include('classes/user.php');
 $user = new User($db);
 
-ob_start();
 session_start();
 error_reporting(0);
 

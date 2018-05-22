@@ -1,6 +1,9 @@
 <?php
 //get logged user's id
-$id=$_GET["id"];
+$id = null;
+if (isset($_GET["id"])) {
+    $id = $_GET["id"];
+}
 
 // required headers
 header("Access-Control-Allow-Origin: *");

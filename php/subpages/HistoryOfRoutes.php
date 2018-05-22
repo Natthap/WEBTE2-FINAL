@@ -39,8 +39,7 @@ if ($_SESSION['personType'] == 1) {
                 <div id="mapDiv" class="col-12 ml-0 mt-0">
                 </div>
             </div>
-            <div class="col col-lg-3 border border-primary rounded m-3">
-                Variable width content
+            <div id="data" class="col col-lg-3 border border-primary rounded m-3">
             </div>
         </div>
         <div class="row justify-content-md-center mapContainer">
@@ -50,6 +49,28 @@ if ($_SESSION['personType'] == 1) {
     </div>
 
     <script>
+        $(document).ready(function() {
+            $('#data').empty();
+            $.ajax({
+                type: 'GET',
+                url: '../rest/RestRoute.php/getAllPublicRoutes',
+                dataType: 'json',
+                success: function(data) {
+                    $('#data').append("<table class='table table-hover'><thead><tr><th>name </th><th>active </th><th>type</th></tr></thead><tbody id='body'>");
+                    for (var i = 0; i < data[0].length; i++) {
+                        $('#body').append("<tr><td> " + data[0][i]['name'] + "</td><td> " +  data[0][i]['active'] + "</td><td> " +  data[0][i]['type'] + "</td></tr> ");
+                    }
+                    $('#data').append("</tbody></table>");
+
+                },
+                error: function(xhr, textStatus) {
+                    alert('GET nefunguje ');
+                    console.log(xhr.status);
+                    console.log(textStatus);
+                }
+            });
+        });
+
         $('#A').click(function(event) {
             var id = $(this).attr('data');
             GoogleMapa(id);

@@ -69,7 +69,7 @@ if(isset($_POST['submit'])){
             "bydlisko_adresa"=>$address,"password"=>$hashed_password,"email"=>$email,"active"=>$activasion,"resetToken"=>"","resetComplete"=>"No");
 
         $body = "<p>Ďakujem Vám za registráciu</p>
-			<p>Na aktiváciu vášho konta použite nasledujúci odkaz: <a href='".DIR."activate.php?x=$id&y=$activasion'>".DIR."activate.php?x=$id&y=$activasion</a></p>
+			<p>Na aktiváciu vášho konta použite nasledujúci odkaz: <a href='".DIR."php/subpages/Activate.php?x=$email&y=$activasion'>".DIR."activate.php?x=$id&y=$activasion</a></p>
 			<p>S pozdravom váš super admin</p>";
 
         $userService->createUser($db, $userData, $geoClass);

@@ -89,9 +89,9 @@ if ($_SESSION['personType'] == 1) {
                 url: '../rest/RestSubRoute.php/getAllusersRoute?id='+id,
                 dataType: 'json',
                 success: function (data) {
-                    $('#tableDiv').append("<table class='table table-hover'><thead><tr><th>meno cesty</th><th>active</th></tr></thead><tbody>");
+                    $('#tableDiv').append("<table class='table table-hover'><thead><tr><th>meno cesty</th><th>active</th></tr></thead><tbody id='body'>");
                     for (var i = 0; i < data.length; i++) {
-                        $('#tableDiv').append("<tr><td>" + data[i]['name'] + "</td><td>" + data[i]['active'] + "</td></tr>");
+                        $('#body').append("<tr><td>" + data[i]['name'] + "</td><td>" + data[i]['active'] + "</td></tr>");
                         setRoute(JSON.parse(data[i]['geojson']));
                         addRoute(JSON.parse(data[i]['geojson']), i != 0 ? 1 : 0);
                     }
