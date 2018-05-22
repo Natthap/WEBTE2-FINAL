@@ -45,6 +45,7 @@ require("layout/Menu.php");
         var id = "<?php echo($_SESSION['memberID']); ?>";
 
         $( document ).ready(function (){
+            console.log(id);
             $('#data').empty();
             $('#data1').empty();
             $.ajax({
@@ -59,10 +60,8 @@ require("layout/Menu.php");
                     }
                     $('#data').append("</table>");
                 },
-                error: function (xhr, textStatus, errorThrown) {
-                    alert('GET nefunguje ');
+                error: function (xhr, textStatus) {
                     console.log(xhr.status);
-                    //console.log(errorThrown);
                     console.log(textStatus);
                 }
             });

@@ -3,9 +3,13 @@
 //include the user class, pass in the database connection
 include('classes/user.php');
 include('../services/ServiceNews.php');
+include('../services/ServiceUser.php');
+include('../services/ServiceMailHandler.php');
 
 $user = new User($db);
 $newsService = new ServiceNews();
+$userService = new ServiceUser();
+$mailer = new ServiceMailHandler();
 
 ob_start();
 session_start();
@@ -28,6 +32,13 @@ require("layout/Menu.php");
 if(isset($_POST['submit'])) {
     $message = $_POST['message'];
 
+    $results = $userService->getAllUsers($db);
+    foreach ($results as $row) {
+        if ($row[3] == 1) {
+            $person = $userService->getUserData($db, $row[0]);
+            $mailer->sendMail($person['email'], "", "nova novinka", $message, 3);
+        }
+    }
     $newsService->addnews($db, $message);
 }
 ?>

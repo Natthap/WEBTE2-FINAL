@@ -102,6 +102,7 @@ if(isset($_POST['submit'])) {
         var id = "<?php echo($_SESSION['memberID']); ?>";
 
         $( document ).ready(function novinky() {
+            console.log(id);
             $('#tableDiv').empty();
             $.ajax({
                 type: 'GET',
@@ -115,7 +116,7 @@ if(isset($_POST['submit'])) {
                         if(value == 0) {
                             value += 1;
                         }
-                        var color = '#'+(value*0xFFFFFF<<0).toString(16)
+                        var color = '#'+(value*0xFFFFFF<<0).toString(16);
                         if(i == 0) {
                             $("<h2>Trasa: "+ data[i]['name']+"</h2>").insertBefore('#tableDiv');
                             setRoute(JSON.parse(data[i]['geojson']));
@@ -131,7 +132,6 @@ if(isset($_POST['submit'])) {
 
                 },
                 error: function (xhr, textStatus) {
-                    alert('GET nefunguje :/');
                     console.log(xhr.status);
                     console.log(textStatus);
                 }
