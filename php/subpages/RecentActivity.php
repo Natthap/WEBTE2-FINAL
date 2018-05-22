@@ -24,6 +24,7 @@ require("layout/Menu.php");
 
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="../../js/JSFunctions.js"></script>
     <div class="container">
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -75,7 +76,7 @@ require("layout/Menu.php");
                 url: "../rest/RestRoute.php/getAllSubroutesOfUser?id="+id,
                 dataType: 'json',
                 success: function (data) {
-                    $('#data').append("<table class='table table-hover'><thead><tr><th>notes</th><th>average speed</th><th>start time</th><th>end time</th></tr></thead><tbody id='body'>");
+                    $('#data').append("<table id='tabulka' class='table table-hover'><thead><tr><th onclick='sortTable(1,tabulka)'>notes</th><th onclick='sortTable(2,tabulka)'>average speed</th><th onclick='sortTable(3,tabulka)'>start time</th><th onclick='sortTable(4,tabulka)'>end time</th></tr></thead><tbody id='body'>");
 
                     for (i = 0; i < data.length; i++) {
                         $('#body').append("<tr><td>"+data[i]['notes'] + "</td><td>"+data[i]['averageSpeed'] + "</td><td>"+data[i]['startTime'] + "</td><td>"+data[i]['endTime'] + "</td></tr>");
@@ -83,7 +84,6 @@ require("layout/Menu.php");
                     $('#data').append("</tbody></table>");
                 },
                 error: function (xhr, textStatus) {
-                    alert('GET nefunguje ');
                     console.log(xhr.status);
                     console.log(textStatus);
                 }
@@ -99,14 +99,13 @@ require("layout/Menu.php");
                 dataType: 'json',
                 success: function (data) {
                     // $length = data[0]
-                    $('#data1').append("<table class='table table-hover'><thead><tr><th>notes 2 </th><th>average speed </th><th>start time</th><th>end time</th></tr></thead><tbody id='body1'>")
+                    $('#data1').append("<table id='tabulka1' class='table table-hover'><thead><tr><th onclick='sortTable(1,tabulka1)'>notes 2 </th><th onclick='sortTable(2,tabulka1)'>average speed </th><th onclick='sortTable(1,tabulka1)'>start time</th><th onclick='sortTable(3,tabulka1)'>end time</th></tr></thead><tbody id='body1'>")
                     for (i = 0; i < data.length; i++) {
                         $('#body1').append("<tr> "+"<td> "+""+data[i]['notes'] + "</td><td>"+data[i]['averageSpeed'] + "</td><td>"+data[i]['startTime'] + "</td><td> "+data[i]['endTime'] + "</td></tr> ");
                     }
                     $('#data1').append("</tbody></table>");
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    alert('GET nefunguje ');
                     console.log(xhr.status);
                     //console.log(errorThrown);
                     console.log(textStatus);
