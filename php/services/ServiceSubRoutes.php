@@ -66,7 +66,7 @@ class ServiceSubRoutes
 
     function getAllSubroutesOfUser($db, $userID)
     {
-        $sql = "SELECT * FROM subroutes_relay WHERE FK_user='" . $userID . "'";
+        $sql = "SELECT * FROM subroutes WHERE FK_user='" . $userID . "'";
 
         $stmt = $db->prepare($sql);
 
