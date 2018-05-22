@@ -37,7 +37,7 @@
                         destination: dest,
                         travelMode: google.maps.DirectionsTravelMode.WALKING
                     };
-                    addRoute(request, 1);
+                    addRoute(request, Math.random());
                     google.maps.event.removeListener(listener);
                 }
             });
@@ -178,7 +178,7 @@
                         destination: dest,
                         travelMode: google.maps.DirectionsTravelMode.WALKING
                     };
-                    addRoute(request, 1);
+                    addRoute(request, Math.random());
                     google.maps.event.removeListener(listener);
                 }
             });
