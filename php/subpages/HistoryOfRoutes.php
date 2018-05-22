@@ -22,12 +22,6 @@ $history = 'active';
 require('layout/header.php');
 require("layout/Menu.php");
 
-if ($_SESSION['personType'] == 2) {
-
-}
-if ($_SESSION['personType'] == 1) {
-
-}
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="../../js/googleMap2.js"></script>
@@ -45,7 +39,7 @@ if ($_SESSION['personType'] == 1) {
         </div>
     </div>
     <script>
-        initializeAll(<?php echo($_SESSION['memberID']); ?>)
+        initializeAll(<?php echo($_SESSION['memberID']); ?>, <?php echo($_SESSION['personType']); ?>)
     </script>
 <?php
 //include header template
