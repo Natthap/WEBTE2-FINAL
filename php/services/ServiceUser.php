@@ -55,7 +55,7 @@ class ServiceUser
 
         $userData["skola_GPS"] = $geoClass->getGeoJson($userData["skola_adresa"]);
 
-        $userData["bydlisko_GPS"] = $geoClass->getGeoJson($userData["bydlisko_adresa"]);
+        $userData["bydlisko_GPS"] = $geoClass->getGeoJson($userData["bydlisko_adresa"].", ".$userData["bydlisko"]);
 
         $sql = "UPDATE memberData SET 
             meno='" . $userData["meno"] . "', priezvisko='" . $userData["priezvisko"] . "',
@@ -117,7 +117,7 @@ class ServiceUser
     {
         $userData["skola_GPS"] = $geoClass->getGeoJson($userData["skola_adresa"]);
 
-        $userData["bydlisko_GPS"] = $geoClass->getGeoJson($userData["bydlisko_adresa"]);
+        $userData["bydlisko_GPS"] = $geoClass->getGeoJson($userData["bydlisko_adresa"].", ".$userData["bydlisko"]);
 
         $sql = "INSERT INTO members (password, email, created, personType, active, resetToken, resetComplete)
             VALUES (

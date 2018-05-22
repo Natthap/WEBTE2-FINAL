@@ -20,15 +20,16 @@ $(document).ready(function () {
                     
                     for (var i = 0; i < data.length; i++) {
 
-                        if (c == 1)
+                        if (c == 1) {
                             json1[i] = JSON.parse(data[i]['skola_GPS']);
-
-                        if (c == 2)
+                            bydlisko_name[i] = data[i]['skola_adresa'];
+                        }
+                        if (c == 2) {
                             json1[i] = JSON.parse(data[i]['bydlisko_GPS']);
-
-                        long[i] = json1[i]['results'][0]['geometry']['location']['lng'];
-                        lat[i] = json1[i]['results'][0]['geometry']['location']['lat'];
-                        bydlisko_name[i] = json1[i]['results'][0]['formatted_address'];
+                            bydlisko_name[i] = data[i]['bydlisko_adresa'] + ", " + data[i]['bydlisko'];
+                        }
+                        long[i] = json1[i]['lng'];
+                        lat[i] = json1[i]['lat'];
                     }
                     /* call map function with markers*/
                     var map = new google.maps.Map(document.getElementById('mapDiv'), {
@@ -57,7 +58,7 @@ $(document).ready(function () {
     function setMarkers(map, lat, long, bydlisko_name, dlzka) {
 
         var beaches = [];
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < dlzka; i++) {
             beaches.push([bydlisko_name[i], lat[i], long[i], 1]);
         }
 

@@ -65,6 +65,9 @@ if(isset($_POST['submit'])) {
                 </form>
             </div>
         </div>
+        <div class="row justify-content-md-center mapContainer">
+            <button class="btn btn-primary mb-3" onclick="clearSubRoute()">Vycistit mapu</button>
+        </div>
     </div>
 
 <?php
