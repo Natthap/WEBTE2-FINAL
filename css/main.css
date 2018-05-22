@@ -1,9 +1,9 @@
 #loginDiv, #newsDiv {
-	min-height: 200px;
+	min-height: 250px;
 }
 
 #mapDiv {
-	min-height: 400px;
+	min-height: 500px;
 }
 
 .bg-danger, .bg-success {

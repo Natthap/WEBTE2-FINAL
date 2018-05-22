@@ -6,10 +6,12 @@
  * Time: 13:49
  */
 
-class ServiceGeoCoding {
+class ServiceGeoCoding
+{
 
     // function to geocode address, it will return false if unable to geocode address
-    function getGeoJson($address){
+    function getGeoJson($address)
+    {
 
         // url encode the address
         $address = urlencode($address);
@@ -28,11 +30,9 @@ class ServiceGeoCoding {
         $response = $resp["status"];
 
         // response status will be 'OK', if able to geocode given address
-        if($response=='OK'){
+        if ($response == 'OK') {
             return $location;
-        }
-
-        else{
+        } else {
             return "";
         }
     }

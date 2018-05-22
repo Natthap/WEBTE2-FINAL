@@ -6,9 +6,9 @@
  * Time: 13:53
  */
 
-include "ServiceGeocoding.php";
+include "ServiceGeoCoding.php";
 include "ServiceMailHandler.php";
-include "../subpages/classes/password.php";
+//include "../subpages/classes/user.php";
 
 header('charset=utf-8');
 
@@ -23,7 +23,7 @@ class ServiceFileHandler
     */
     function filehandler($db, $tmpName)
     {
-
+        
         $error_messages = array();
         $row = 1;
         if (($handle = fopen($tmpName, "r")) !== FALSE) {

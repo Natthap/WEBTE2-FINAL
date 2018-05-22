@@ -3,9 +3,11 @@
 //include the user class, pass in the database connection
 include('classes/user.php');
 include('../services/ServiceUser.php');
+include('../services/ServiceFileHandler.php');
 
 $user = new User($db);
 $userService = new ServiceUser();
+$fileHandler = new ServiceFileHandler();
 
 ob_start();
 session_start();
@@ -31,6 +33,24 @@ if ($_SESSION['personType'] == 1) {
 }
 
 $results = $userService->getAllUsers($db);
+
+if(isset($_POST["submit"])) {
+    $uploadDir = 'uploads/';
+    $uploadFile = $uploadDir . basename($_FILES['fileInput']['name']);
+
+    $fileHandler->filehandler($db, $uploadFile);
+    /*echo '<pre>';
+    if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+        echo "File is valid, and was successfully uploaded.\n";
+    } else {
+        echo "Possible file upload attack!\n";
+    }
+
+    echo 'Here is some more debugging info:';
+    print_r($_FILES);
+
+    print "</pre>";*/
+}
 
 ?>
 
@@ -59,12 +79,12 @@ $results = $userService->getAllUsers($db);
     </div>
     <div class="row">
         <div class="emailForm col-12">
-            <form class="" role="form" method="post" action="#">
+            <form class="" role="form" method="post" action="#" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="exampleFormControlFile1">Example file input</label>
-                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                    <label for="fileInput">Vlozte subor</label>
+                    <input type="file" name="fileInput" class="form-control-file" id="fileInput">
                 </div>
-                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" name="submit" class="btn btn-primary">Odoslat</button>
             </form>
         </div>
     </div>

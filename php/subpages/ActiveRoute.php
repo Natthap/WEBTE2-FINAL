@@ -36,11 +36,11 @@ if ($_SESSION['personType'] == 1) {
 
     <div class="container col col-lg-12">
         <div class="row justify-content-md-center mapContainer">
-            <div class="col col-lg-8 border border-primary rounded m-3">
+            <div class="col col-lg-7 border border-primary rounded m-3">
                 <div id="mapDiv" class="col-12 ml-0 mt-0">
                 </div>
             </div>
-            <div class="col col-lg-3 border border-primary rounded pb-3 m-3">
+            <div class="col col-lg-4 border border-primary rounded pb-3 m-3">
                 <div id="tableDiv">
                 </div>
             </div>
@@ -49,7 +49,7 @@ if ($_SESSION['personType'] == 1) {
             <button class="btn btn-primary mb-3" onclick="clearSubRoute()">Vycistit mapu</button>
         </div>
         <div class="row justify-content-md-center">
-            <div class="col col-lg border border-primary rounded pb-3">
+            <div class="col col-lg-11 border border-primary rounded pb-3">
                 <div id="formDiv">
                     <h3>Pridanie podtrasy</h3>
                     <form class="" role="form" method="post" action="#">
