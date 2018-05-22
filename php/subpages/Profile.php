@@ -11,6 +11,7 @@ $geoClass = new ServiceGeoCoding();
 
 ob_start();
 session_start();
+error_reporting(0);
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){

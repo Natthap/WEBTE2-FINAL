@@ -10,6 +10,7 @@ $user = new User($db);
 
 ob_start();
 session_start();
+error_reporting(0);
 
 //check if already logged in move to home page
 if( $user->is_logged_in() ){

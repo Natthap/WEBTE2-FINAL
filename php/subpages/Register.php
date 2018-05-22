@@ -14,6 +14,7 @@ $geoClass = new ServiceGeoCoding();
 
 ob_start();
 session_start();
+error_reporting(0);
 
 //if logged in redirect to members page
 if( $user->is_logged_in()){
