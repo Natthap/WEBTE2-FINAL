@@ -35,21 +35,22 @@ if ($_SESSION['personType'] == 1) {
 $results = $userService->getAllUsers($db);
 
 if(isset($_POST["submit"])) {
-    $uploadDir = 'uploads/';
+    $uploadDir = 'https://147.175.98.140/semestralnyProjekt/php/subpages/uploads/';
     $uploadFile = $uploadDir . basename($_FILES['fileInput']['name']);
 
-    $fileHandler->filehandler($db, $uploadFile);
-    /*echo '<pre>';
-    if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+    echo '<pre>';
+    if (move_uploaded_file($_FILES['fileInput']['tmp_name'], $uploadfile)) {
         echo "File is valid, and was successfully uploaded.\n";
+        $fileHandler->filehandler($db, $uploadFile);
     } else {
         echo "Possible file upload attack!\n";
+        $fileHandler->filehandler($db, $uploadFile);
     }
 
     echo 'Here is some more debugging info:';
     print_r($_FILES);
 
-    print "</pre>";*/
+    print "</pre>";
 }
 
 ?>
