@@ -54,10 +54,7 @@ if ($_SESSION['personType'] == 1) {
                     <h3>Pridanie podtrasy</h3>
                     <form class="" role="form" method="post" action="#">
                         <div class="form-group">
-                            <input type="hidden" name="gpsStart" class="form-control" id="gpsStart" value="<?php echo $_SESSION['memberID']; ?>">
-                        </div>
-                        <div class="form-group">
-                            <input type="hidden" name="gpsEnd" class="form-control" id="gpsEnd" value="">
+                            <input type="hidden" name="gps" class="form-control" id="gps" value="">
                         </div>
                         <div class="form-group">
                             <label for="startTime">Zaciatocny cas</label>
@@ -92,12 +89,14 @@ if ($_SESSION['personType'] == 1) {
                 url: '../rest/RestSubRoute.php/getAllusersRoute?id='+id,
                 dataType: 'json',
                 success: function (data) {
-                    var length = data[0];
                     $('#tableDiv').append("<table class='table table-hover'><thead><tr><th>meno cesty</th><th>active</th></tr></thead><tbody>");
                     for (var i = 0; i < data.length; i++) {
                         $('#tableDiv').append("<tr><td>" + data[i]['name'] + "</td><td>" + data[i]['active'] + "</td></tr>");
+                        setRoute(JSON.parse(data[i]['geojson']));
+                        addRoute(JSON.parse(data[i]['geojson']), i != 0 ? 1 : 0);
                     }
                     $('#tableDiv').append("</tbody></table>");
+
 
                 },
                 error: function (xhr, textStatus) {

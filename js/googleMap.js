@@ -6,6 +6,7 @@
     var directions;
     var renderer;
     var polylines = [];
+    var listener;
 
     function initialize() {
         var latlng = new google.maps.LatLng(48.750086, 19.669258);
@@ -20,7 +21,7 @@
             suppressPolylines: true
         });
         
-        if(!route) {
+        listener =
             google.maps.event.addListener(map, 'click', function (event) {
                 placeMarker(event.latLng);
                 if (markers.length == 2) {
@@ -39,7 +40,7 @@
                     addRoute(request, 1);
                 }
             });
-        }
+
     }
 
     function addRoute(request, value) {
@@ -58,7 +59,6 @@
                     $('#gps').val(JSON.stringify(request));
                 }
                 renderDirectionsPolylines(response,polylineOptions, value);
-                console.log(renderer.getDirections());
             } else {
                 renderer.setMap(null);
                 renderer.setPanel(null);
@@ -135,27 +135,35 @@
                 }
                 polylines = [];
         $('#gps').val("");
+        var request1;
+        if(subRoutes.length != 0) {
+            request1 = {
+                origin: new google.maps.LatLng(subRoutes[subRoutes.length-1].origin.getLat(), subRoutes[subRoutes.length-1].origin.getLng()),
+                destination: new google.maps.LatLng(subRoutes[subRoutes.length-1].destination.getLat(), subRoutes[subRoutes.length-1].destination.getLng()),
+                travelMode: google.maps.DirectionsTravelMode.WALKING
+            };
 
-            if(subRoutes.length != 0) {
-                request1 = {
-                    origin: new google.maps.LatLng(subRoutes[subRoutes.length-1].origin.getLat(), subRoutes[subRoutes.length-1].origin.getLng()),
-                    destination: new google.maps.LatLng(subRoutes[subRoutes.length-1].destination.getLat(), subRoutes[subRoutes.length-1].destination.getLng()),
-                    travelMode: google.maps.DirectionsTravelMode.WALKING
-                };
-
-            } else if(route) {
-                request1 = {
-                    origin: new google.maps.LatLng(route.origin.lat, route.origin.lng),
-                    destination: new google.maps.LatLng (route.destination.lat, route.destination.lng),
-                    travelMode: google.maps.DirectionsTravelMode.WALKING
-                };
-            }
-
-        directions.route(request1, function(response, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
-                renderer.setDirections(response);
-            }
+        } else if(route) {
+            request1 = {
+                origin: new google.maps.LatLng(route.origin.lat, route.origin.lng),
+                destination: new google.maps.LatLng (route.destination.lat, route.destination.lng),
+                travelMode: google.maps.DirectionsTravelMode.WALKING
+            };
+        }
+        if(request1) {
+            directions.route(request1, function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    renderer.setDirections(response);
+                }
             });
+        } else {
+            renderer.setMap(null);
+        }
+    }
+
+    function setRoute(data) {
+        route = data;
+        google.maps.event.removeListener(listener);
     }
 
 
