@@ -84,7 +84,6 @@ require("layout/Menu.php");
                     $('#data').append("</tbody></table>");
                 },
                 error: function (xhr, textStatus) {
-                    alert('GET nefunguje ');
                     console.log(xhr.status);
                     console.log(textStatus);
                 }
@@ -107,7 +106,6 @@ require("layout/Menu.php");
                     $('#data1').append("</tbody></table>");
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    alert('GET nefunguje ');
                     console.log(xhr.status);
                     //console.log(errorThrown);
                     console.log(textStatus);

@@ -161,7 +161,6 @@ if (isset($_POST['submit'])) {
                     $('#data').append("<tbody></table>");
                 },
                 error: function (xhr, textStatus) {
-                    alert('GET nefunguje ');
                     console.log(xhr.status);
                     console.log(textStatus);
                 }

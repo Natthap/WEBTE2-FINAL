@@ -131,7 +131,6 @@ if(isset($_POST['submit'])) {
 
                 },
                 error: function (xhr, textStatus) {
-                    alert('GET nefunguje :/');
                     console.log(xhr.status);
                     console.log(textStatus);
                 }
